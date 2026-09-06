@@ -1,0 +1,92 @@
+.nav-link:hover{
+    color: inherit !important ; 
+}
+
+.news-box::-webkit-scrollbar  {
+    width: 5px; /* Slim scrollbar width */
+  }
+  
+  .news-box::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background color of the track */
+  }
+
+  
+  
+  .news-box::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the thumb (scrollbar handle) */
+    border-radius: 10px;
+    height: 25px; /* Round corners of the scrollbar thumb */
+  }
+  
+  .news-box::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color of the thumb on hover */
+  }
+
+
+  .gallery::-webkit-scrollbar{
+    scrollbar-width: thin;
+
+  }
+/* Remove extra spacing in dropdown */
+.dropdown-menu {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove gap on each list item */
+.dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style dropdown items */
+.dropdown-item {
+  padding: 8px 16px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+}
+
+/* Highlight on hover */
+.dropdown-item:hover {
+  background-color: #f0f0f0; /* light gray */
+  color: #000;
+  font-weight: 600;
+}
+
+  /* ============================================
+   RESPONSIVE FIX — homepage 2-column layout
+   ============================================ */
+
+.home-main-col {
+  width: 900px;
+  max-width: 100%;
+}
+
+.home-sidebar-col {
+  width: 400px;
+  max-width: 100%;
+}
+
+@media (max-width: 1070px) {
+  .partent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .home-main-col,
+  .home-sidebar-col {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery > div[style*="width: calc"] {
+    width: calc(50% - 20px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery > div[style*="width: calc"] {
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,213 @@
+/* Yeh sab styles ab sirf .admin-app wrapper ke andar hi apply hoti hain
+   (AdminApp.jsx mein root <div className="admin-app"> ke through) —
+   taaki main website ke global html/body/a/button par asar na pade */
+
+.admin-app {
+  --navy: #101c40;
+  --navy-light: #182b5c;
+  --navy-lighter: #22346b;
+  --accent: #2f6fed;
+  --accent-dark: #1d54c4;
+  --bg: #f2f4f9;
+  --card: #ffffff;
+  --text: #1f2430;
+  --text-muted: #7a8194;
+  --border: #e6e9f2;
+  --success: #16a34a;
+  --success-bg: #e8f9ef;
+  --danger: #e5484d;
+  --danger-bg: #fdecec;
+  --warning: #f59e0b;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(16, 28, 64, 0.06), 0 4px 16px rgba(16, 28, 64, 0.05);
+
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-app * { box-sizing: border-box; }
+.admin-app a { text-decoration: none; color: inherit; }
+.admin-app button { font-family: inherit; cursor: pointer; }
+.admin-app input, .admin-app textarea, .admin-app select { font-family: inherit; }
+
+.admin-app ::-webkit-scrollbar { width: 8px; height: 8px; }
+.admin-app ::-webkit-scrollbar-thumb { background: #c7cee0; border-radius: 8px; }
+
+/* ---------- Layout ---------- */
+.admin-app .app-shell { display: flex; min-height: 100vh; }
+
+.admin-app .sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: var(--navy);
+  color: #cfd6ea;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.admin-app .sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.admin-app .sidebar-brand .logo-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: white; font-size: 15px;
+}
+.admin-app .sidebar-brand span { font-weight: 700; font-size: 15px; color: white; letter-spacing: .3px; }
+
+.admin-app .sidebar-nav { padding: 12px 10px; flex: 1; }
+.admin-app .sidebar-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  font-size: 13.5px; font-weight: 500; color: #aab3cc;
+  margin-bottom: 2px; transition: background .15s, color .15s;
+}
+.admin-app .sidebar-link i { font-size: 16px; width: 18px; text-align: center; }
+.admin-app .sidebar-link:hover { background: var(--navy-light); color: white; }
+.admin-app .sidebar-link.active { background: var(--accent); color: white; }
+
+.admin-app .main-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.admin-app .topbar {
+  height: 64px; background: white; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; position: sticky; top: 0; z-index: 5;
+}
+.admin-app .topbar-search {
+  flex: 1; max-width: 380px; display: flex; align-items: center; gap: 8px;
+  background: var(--bg); border-radius: 999px; padding: 8px 16px; color: var(--text-muted); font-size: 13.5px;
+}
+.admin-app .topbar-right { display: flex; align-items: center; gap: 18px; }
+.admin-app .avatar-circle {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--navy);
+  color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;
+}
+.admin-app .page-content { padding: 24px; flex: 1; }
+
+.admin-app .breadcrumb-row { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+.admin-app .page-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.admin-app .page-title-row h1 { font-size: 21px; font-weight: 700; margin: 0; }
+
+/* ---------- Cards (dashboard) ---------- */
+.admin-app .dash-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px;
+}
+.admin-app .dash-card {
+  background: var(--card); border-radius: var(--radius); padding: 18px 20px;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 12px; transition: transform .15s;
+}
+.admin-app .dash-card:hover { transform: translateY(-2px); }
+.admin-app .dash-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.admin-app .dash-icon {
+  width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 19px;
+}
+.admin-app .dash-count { font-size: 26px; font-weight: 800; }
+.admin-app .dash-card h3 { font-size: 15px; font-weight: 700; margin: 0; }
+.admin-app .dash-status { display: flex; align-items: center; justify-content: space-between; }
+.admin-app .status-pill {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px;
+}
+.admin-app .status-pill.active { background: var(--success-bg); color: var(--success); }
+.admin-app .status-pill.inactive { background: var(--danger-bg); color: var(--danger); }
+.admin-app .dash-add-btn {
+  width: 30px; height: 30px; border-radius: 8px; border: none; background: var(--accent); color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.admin-app .dash-add-btn:hover { background: var(--accent-dark); }
+
+/* ---------- Generic module page ---------- */
+.admin-app .card-panel { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.admin-app .card-panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.admin-app .card-panel-header h2 { font-size: 16px; margin: 0; font-weight: 700; }
+
+.admin-app .btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; border: 1px solid transparent; }
+.admin-app .btn-primary { background: var(--accent); color: white; }
+.admin-app .btn-primary:hover { background: var(--accent-dark); }
+.admin-app .btn-light { background: var(--bg); color: var(--text); border-color: var(--border); }
+.admin-app .btn-light:hover { background: #e9ecf5; }
+.admin-app .btn-danger-outline { background: var(--danger-bg); color: var(--danger); }
+.admin-app .btn-sm { padding: 6px 12px; font-size: 12.5px; }
+
+.admin-app .table-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; flex-wrap: wrap; gap: 10px; }
+.admin-app .table-toolbar input { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 12px; font-size: 13px; width: 220px; }
+
+.admin-app table.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.admin-app table.data-table th {
+  text-align: left; padding: 10px 20px; background: var(--bg); color: var(--text-muted);
+  font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px;
+}
+.admin-app table.data-table td { padding: 12px 20px; border-top: 1px solid var(--border); vertical-align: middle; }
+.admin-app table.data-table tbody tr:hover { background: #fafbfe; }
+.admin-app .thumb-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: #eef1f8; }
+
+.admin-app .action-btn { width: 30px; height: 30px; border-radius: 7px; border: none; display: inline-flex; align-items: center; justify-content: center; margin-right: 4px; font-size: 13px; }
+.admin-app .action-view { background: #e6f0ff; color: var(--accent); }
+.admin-app .action-edit { background: #eafaf0; color: var(--success); }
+.admin-app .action-delete { background: var(--danger-bg); color: var(--danger); }
+
+.admin-app .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+.admin-app .empty-state i { font-size: 34px; opacity: .35; display: block; margin-bottom: 10px; }
+
+/* ---------- Modal ---------- */
+.admin-app .modal-overlay {
+  position: fixed; inset: 0; background: rgba(16, 20, 35, 0.55); z-index: 50;
+  display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+}
+.admin-app .modal-box { background: white; border-radius: var(--radius); width: 100%; max-width: 620px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.admin-app .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); }
+.admin-app .modal-header h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.admin-app .modal-close { background: none; border: none; font-size: 18px; color: var(--text-muted); }
+.admin-app .modal-body { padding: 20px 22px; max-height: 65vh; overflow-y: auto; }
+.admin-app .modal-footer { padding: 16px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+
+.admin-app .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-app .form-group { margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
+.admin-app .form-group.full { grid-column: 1 / -1; }
+.admin-app .form-group label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); }
+.admin-app .form-group label .req { color: var(--danger); }
+.admin-app .form-group input[type=text], .admin-app .form-group input[type=number], .admin-app .form-group input[type=date],
+.admin-app .form-group input[type=email], .admin-app .form-group textarea, .admin-app .form-group select {
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13.5px; width: 100%;
+}
+.admin-app .form-group textarea { resize: vertical; min-height: 90px; }
+.admin-app .form-group input[type=file] { font-size: 13px; }
+.admin-app .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13.5px; }
+.admin-app .checkbox-group { display: flex; gap: 18px; flex-wrap: wrap; }
+.admin-app .hint { font-size: 11.5px; color: var(--text-muted); }
+.admin-app .img-preview { width: 90px; height: 90px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 8px; }
+
+/* ---------- Login ---------- */
+.admin-app .login-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 20% 20%, #1a2a5e, var(--navy) 60%);
+}
+.admin-app .login-card { background: white; border-radius: 16px; padding: 36px 34px; width: 100%; max-width: 380px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+.admin-app .login-logo { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), #7c3aed); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-bottom: 16px; }
+.admin-app .login-card h1 { font-size: 20px; margin: 0 0 4px; }
+.admin-app .login-card p.sub { color: var(--text-muted); font-size: 13.5px; margin: 0 0 22px; }
+.admin-app .login-error { background: var(--danger-bg); color: var(--danger); font-size: 13px; padding: 9px 12px; border-radius: var(--radius-sm); margin-bottom: 14px; }
+.admin-app .login-btn { width: 100%; padding: 11px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; margin-top: 6px; }
+.admin-app .login-btn:hover { background: var(--accent-dark); }
+.admin-app .login-hint { margin-top: 18px; font-size: 12px; color: var(--text-muted); text-align: center; }
+
+@media (max-width: 900px) {
+  .admin-app .sidebar { position: fixed; z-index: 40; transform: translateX(-100%); transition: transform .2s; }
+  .admin-app .sidebar.open { transform: translateX(0); }
+  .admin-app .form-grid { grid-template-columns: 1fr; }
+}

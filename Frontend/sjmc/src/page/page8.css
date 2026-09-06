@@ -1,0 +1,173 @@
+:root {
+  --half-screen-width: 50vw; /* Define the variable for 50vw */
+}
+
+.slidecontainer{
+    min-height:100vh;
+    background-color: rgba(219, 204, 204, 0.428);
+    text-align: center;
+    padding: 5px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3), -3px -3px 5px rgba(255, 255, 255, 0.3);
+}
+
+.slidecontainer h4{
+    text-align: left;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-left: 35px;
+}
+
+  .autoslider {
+    height: 340px;
+    margin: auto;
+    position: relative;
+    width: 90%;
+    overflow: hidden; /* Ensure content does not overflow */
+  }
+
+  .slide-track {
+    display: flex;
+    animation: scroll 65s linear infinite; /* Adjust animation duration as needed */
+    width: max-content;
+  }
+
+  .slide-track2 {
+    display: flex;
+    animation: scroll2 32s linear infinite; /* Adjust animation duration as needed */
+    width: max-content;
+  }
+
+  .slide-track3 {
+    display: flex;
+    animation: scroll3 14s linear infinite;
+    width: max-content;
+  }
+
+  .aslide {
+    height: 340px;
+    width: 250px;
+    
+    align-items: center;
+    padding: 15px;
+    perspective: 100px;
+    
+  }
+
+  .aslide img {
+    border: 1px solid black;
+    box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.3);
+    height:270px;
+    width:240px;
+    width: 100%;
+    transition: transform 1%;
+    image-rendering: crisp-edges; /* for modern browsers */
+    image-rendering: -moz-crisp-edges; /* for Firefox */
+    image-rendering: -webkit-optimize-contrast; /* for WebKit (Safari, Chrome) */
+    -ms-interpolation-mode: nearest-neighbor; /* for IE/Edge */
+  }
+
+  .aslide img:hover {
+    transform: translateZ(20px);
+  }
+
+  /* GRADIENT SHADOWS */  
+  .autoslider::before,  
+  .autoslider::after {  
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%,  
+    rgba(255,255,255,0) 100);  
+    content: '';  
+    height: 100%; 
+    position: absolute;  
+    width: 15%;  
+    z-index: 2;  
+  }  
+  .autoslider::before {  
+    left: 0;  
+    top: 0;  
+  }  
+  .autoslider::after {  
+    right: 0;  
+    top: 0;  
+    transform: rotate(180deg); 
+  }
+
+  /* Pause animation on hover */
+  .autoslider:hover .slide-track {
+    animation-play-state: paused;
+  }
+
+  .autoslider:hover .slide-track2 {
+    animation-play-state: paused;
+  }
+
+  .autoslider:hover .slide-track3 {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(50vw);
+    }
+    100% {
+      transform: translateX(calc(-250px * 48 + var(--half-screen-width) )); 
+    }
+}
+
+@keyframes scroll2 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(calc(-250px * 21 )); 
+  }
+}
+
+@keyframes scroll3 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(calc(-250px * 16));
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Transparent background */
+  z-index: 999; /* Ensure modal is on top of other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: rgba(255, 255, 255, 0);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content img {
+  width: auto; /* Allow the width of the image to adjust according to its aspect ratio */
+  height: 100%; /* Allow the height of the image to adjust according to its aspect ratio */
+  max-width: 100%; /* Ensure that the image does not exceed the width of the modal container */
+  max-height: 100vh; /* Ensure that the image does not exceed the height of the modal container */
+  object-fit: contain; /* Scale the image to maintain its aspect ratio while fitting within the modal container */
+}
+
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+}
+
+.close:hover {
+  color: #000;
+}
