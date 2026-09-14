@@ -1,4 +1,3 @@
-import { width } from '@fortawesome/free-solid-svg-icons/fa0'
 import React from 'react'
 import Home from '../components/HomeButton'
 import ma_pdf from '../asset/ma_syllabus.pdf'

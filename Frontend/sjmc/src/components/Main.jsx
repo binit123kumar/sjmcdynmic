@@ -12,8 +12,7 @@ import g1 from '../asset/slide1.webp';
 import g2 from '../asset/slide2.webp';
 import g3 from '../asset/slide3.webp';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom/dist';
-import { width } from '@fortawesome/free-solid-svg-icons/fa0';
+import { useNavigate } from 'react-router-dom';
 import Course1 from '../asset/c1.pdf'
 import Course2 from '../asset/c2.pdf'
 import Course3 from '../asset/c3.pdf'

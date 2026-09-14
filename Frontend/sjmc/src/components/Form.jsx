@@ -1,6 +1,5 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import { width } from '@fortawesome/free-solid-svg-icons/fa0';
 
 const Form = () => {
     const [state, handleSubmit] = useForm("xjvnddgv");
