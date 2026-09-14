@@ -53,6 +53,8 @@ namespace SJMC.CMS.API.Models
     {
         [Required, MaxLength(200)] public string Title { get; set; } = string.Empty;
         [Required] public string ImagePath { get; set; } = string.Empty;
+	public int? MediaId { get; set; }
+	public MediaFile? Media { get; set; }
         [MaxLength(100)] public string? Category { get; set; }
         [MaxLength(255)] public string? OriginalFileName { get; set; }
         [MaxLength(255)] public string? StoredFileName { get; set; }
