@@ -21,7 +21,7 @@ namespace SJMC.CMS.API.Controllers
         }
 
         // POST api/auth/login
-        // Default seeded user -> username: admin, password: Admin@123
+        // Authenticate administrator using the BCrypt password hash stored in the database.
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {

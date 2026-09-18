@@ -27,19 +27,6 @@ namespace SJMC.CMS.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Default Super Admin -> username: admin, password: Admin@123
-            // Hash generated with BCrypt.Net-Next (BCrypt.HashPassword("Admin@123"))
-            modelBuilder.Entity<AdminUser>().HasData(new AdminUser
-            {
-                Id = 1,
-                Username = "admin",
-                PasswordHash = "$2b$11$OkpCsoEWbJIm4qtmgneViu1YanCYDPWpTaQRiQ6ELX2Ec4qO5aZFm",
-                FullName = "Administrator",
-                Email = "admin@sjmc.edu",
-                Role = "Super Admin",
-                CreatedAt = new DateTime(2026, 1, 1)
-            });
-
             modelBuilder.Entity<SiteSetting>().HasData(new SiteSetting
             {
                 Id = 1,
