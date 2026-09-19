@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 .history/
 *.log
-*.json
 
 # vs code specific files
 .history/
