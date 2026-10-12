@@ -1,4 +1,4 @@
--- Seed default Super Admin login (username: admin, password: Admin@123)
+-- Seed default Super Admin login (username: admin, password: Admin#9525594358)
 -- and default site settings row. Safe to re-run.
 USE SJMC_CMS_DB;
 GO
@@ -7,7 +7,7 @@ IF NOT EXISTS (SELECT 1 FROM dbo.AdminUsers WHERE Username = 'admin')
 INSERT INTO dbo.AdminUsers (Username, PasswordHash, FullName, Email, Role, CreatedAt)
 VALUES (
     'admin',
-    '$2b$11$OkpCsoEWbJIm4qtmgneViu1YanCYDPWpTaQRiQ6ELX2Ec4qO5aZFm', -- Admin@123
+    '$2b$11$vXsCgqYmVB4VWD49ElwChes2wMbcyTtPx3q0W5OxJB29WVe2u0Zuu'--->952559
     'Administrator',
     'admin@sjmc.edu',
     'Super Admin',
