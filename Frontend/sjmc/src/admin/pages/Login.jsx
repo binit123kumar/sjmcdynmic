@@ -47,7 +47,7 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="login-hint">Default: admin / Admin@123</p>
+        
       </div>
     </div>
   );

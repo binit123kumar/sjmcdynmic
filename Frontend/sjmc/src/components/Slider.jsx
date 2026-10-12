@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-const API_BASE = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
+import { API_BASE, buildApiUrl } from '../utils/api';
 
 function ImageSlider() {
   const [slides, setSlides] = useState([]);
   const [state, setState] = useState('loading');
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/slider?activeOnly=true`)
+    fetch(buildApiUrl('/api/slider?activeOnly=true'))
       .then((response) => {
         if (!response.ok) throw new Error('Unable to load slider.');
         return response.json();

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-
-const API_BASE = (process.env.REACT_APP_API_URL || "https://localhost:7050/api").replace(/\/api\/?$/, "");
+import { API_BASE, buildApiUrl } from '../utils/api';
 
 const Header = () => {
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/settings`)
+    fetch(buildApiUrl('/api/settings'))
       .then((response) => response.json())
       .then((response) => setSettings(response.data || null))
       .catch(() => setSettings(null));

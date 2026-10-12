@@ -1,0 +1,47 @@
+using System;
+using System.Threading.Tasks;
+using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SJMC.CMS.API.Data;
+using SJMC.CMS.API.Models;
+
+namespace SJMC.CMS.API.Tools
+{
+    public static class AdminSetup
+    {
+        public static async Task RunAsync(string connectionString, string username = "admin", string password = "Admin@123", string email = "admin@sjmc.edu")
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseNpgsql(connectionString)
+                .Options;
+
+            using var db = new ApplicationDbContext(options);
+            await db.Database.EnsureCreatedAsync();
+
+            var existing = await db.AdminUsers.FirstOrDefaultAsync(u => u.Username == username);
+            if (existing != null)
+            {
+                Console.WriteLine($"Admin user '{username}' already exists. No changes made.");
+                return;
+            }
+
+            var hash = BCrypt.Net.BCrypt.HashPassword(password);
+            var user = new AdminUser
+            {
+                Username = username,
+                PasswordHash = hash,
+                FullName = "Administrator",
+                Email = email,
+                Role = "Super Admin",
+                CreatedAt = DateTime.UtcNow
+            };
+
+            db.AdminUsers.Add(user);
+            await db.SaveChangesAsync();
+            Console.WriteLine($"Admin user '{username}' created successfully.");
+            Console.WriteLine($"Password: {password}");
+            Console.WriteLine($"Hash: {hash}");
+        }
+    }
+}

@@ -89,6 +89,7 @@ import CIPM_Student_Visit from './page/CIPM_Student_Visit';
 import Health from './page/Health';
 import AdminApp from './admin/AdminApp';
 import CmsPage from './page/CmsPage';
+import Chatbot from './components/Chatbot';
 
 
 
@@ -126,7 +127,6 @@ function App() {
           <Route path="/Capacity_Building" element={<Capacity_Building/>} />
           <Route path="/Annual_Day" element={<Annual_Day/>} />
           <Route path="/CIPM_Student_Visit" element={<CIPM_Student_Visit />} />
-          <Route path="/" element={<StudentLens />} />
           <Route path="/MA" element={<Page1 />} />
           <Route path="/PhD" element={<Page2 />} />
           <Route path="/About" element={<About />} />
@@ -214,10 +214,10 @@ function App() {
           <Route path="/News7" element={<News7 />} />
           <Route path="/admin/*" element={<AdminApp />} />
           <Route path="/content/:slug" element={<CmsPage />} />
+          <Route path="*" element={<CmsPage />} />
 
+          <Chatbot />
 
-
-         
         </Routes>
       </BrowserRouter>
     </>

@@ -114,8 +114,7 @@ import CIPM_Student_Visit_img from '../asset/Our gallery/CIPM_Student_Visit/16.w
 import TvBanner from '../asset/Our gallery/menstrual health and hygiene/TV Banner.webp';
 import HomeUpdates from './HomeUpdates';
 import HomeAbout from './HomeAbout';
-
-const API_BASE = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
+import { API_BASE } from '../utils/api';
 
 
 const legacyGalleryItems = [

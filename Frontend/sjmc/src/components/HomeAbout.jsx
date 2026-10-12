@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-
-const API_BASE = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
+import { buildApiUrl } from '../utils/api';
 
 export default function HomeAbout() {
   const [items, setItems] = useState([]);
   const [state, setState] = useState('loading');
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/about`)
+    fetch(buildApiUrl('/api/about'))
       .then((response) => {
         if (!response.ok) throw new Error('Unable to load About content.');
         return response.json();

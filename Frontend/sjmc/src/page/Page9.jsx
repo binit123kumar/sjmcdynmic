@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Home from '../components/HomeButton';
 import Director from '../asset/founding_director.webp';
+import { buildApiUrl } from '../utils/api';
 
-const API_BASE = (process.env.REACT_APP_API_URL || "https://localhost:7050/api").replace(/\/api\/?$/, "");
-const API_URL = `${API_BASE}/api/about`;
+const API_URL = buildApiUrl('/api/about');
 
 function Page9() {
   const [items, setItems] = useState([]);

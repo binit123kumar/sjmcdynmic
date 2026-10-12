@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+
 namespace SJMC.CMS.API.Services
 {
     public interface IFileService
@@ -7,5 +10,11 @@ namespace SJMC.CMS.API.Services
         void DeleteFile(string? relativePath);
     }
 
-    public sealed record FileSaveResult(string Path, string OriginalFileName, string StoredFileName);
+    public sealed record FileSaveResult(
+        string Path,
+        string OriginalFileName,
+        string StoredFileName,
+        bool ConvertedToWebP = false,
+        long OriginalSizeBytes = 0,
+        long SavedSizeBytes = 0);
 }

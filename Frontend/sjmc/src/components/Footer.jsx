@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import { API_BASE, buildApiUrl } from '../utils/api';
 
 const Footer = () => {
     const [settings, setSettings] = useState(null);
 
     useEffect(() => {
-        const apiBase = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
-        fetch(`${apiBase}/api/settings`)
+        fetch(buildApiUrl('/api/settings'))
             .then((response) => response.json())
             .then((response) => setSettings(response.data || null))
             .catch(() => setSettings(null));
     }, []);
-
-    const apiBase = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
     return (
         <nav
             className="navbar"
@@ -23,7 +21,7 @@ const Footer = () => {
                     {/* First div with logo and contact information */}
                     <div className="col-12 col-md-4 col-lg-4 d-flex">
                         <div>
-                            {settings?.logoPath && <img src={`${apiBase}${settings.logoPath}`} alt={settings.siteName || 'University Logo'} style={{width:'100%', paddingBottom:'10px', position:'relative', right:'80px'}} />}
+                            {settings?.logoPath && <img src={`${API_BASE}${settings.logoPath}`} alt={settings.siteName || 'University Logo'} style={{width:'100%', paddingBottom:'10px', position:'relative', right:'80px'}} />}
                             {settings?.phone && <p>Phone: {settings.phone}</p>}
                             {settings?.address && <p>Address: {settings.address}</p>}
                             {settings?.email && <p>Email: {settings.email}</p>}

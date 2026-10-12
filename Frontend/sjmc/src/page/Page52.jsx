@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { buildApiUrl } from '../utils/api';
 
-const API_BASE = (process.env.REACT_APP_API_URL || "https://localhost:7050/api").replace(/\/api\/?$/, "");
-const API_URL = `${API_BASE}/api/faculty`;
+const API_URL = buildApiUrl('/api/faculty');
 
 function Page52() {
   const [items, setItems] = useState([]);
