@@ -186,21 +186,17 @@ const StudentLens = () => {
       className="student-lens-section"
       style={{
         width: '100%',
-        margin: '40px',
+        margin: '0 auto 40px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
-        right: '36px',
       }}
     >
       <h2
         style={{
           width: '100%',
           textAlign: 'center',
-          borderRadius: '10px',
-          textShadow: '0 3px 10px rgba(0, 0, 0, 0.7)',
         }}
       >
         Student Lens

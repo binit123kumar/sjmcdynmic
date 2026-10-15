@@ -22,14 +22,14 @@ function ImageSlider() {
   if (!slides.length) return <div className="container text-center py-5">No slider items available.</div>;
 
   return (
-    <div className="container" style={{width:'700px' , marginBottom:'10px'}}>
+    <div className="container">
       <div className="row">
         <div className="col">
           <Slide arrows={true} dots={true}>
             {slides.map((slide) => (
               <div key={slide.id} className="text-center">
-                <img src={`${API_BASE}${slide.imagePath}`} alt={slide.title || 'SJMC banner'} className="img-fluid" style={{ width: '900px', height: '400px' }}/>
-                {slide.title && <span className="slide-caption">{slide.title}</span>}
+                <img src={`${API_BASE}${slide.imagePath}`} alt={slide.title || 'SJMC banner'} className="img-fluid sjmc-slider-img" />
+                {slide.title && <span className="slide-caption sjmc-slide-caption">{slide.title}</span>}
               </div>
             ))}
           </Slide>

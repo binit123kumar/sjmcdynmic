@@ -23,8 +23,8 @@ export default function HomeAbout() {
   if (!items.length) return <p className="text-center">No About content available.</p>;
 
   return items.map((item) => (
-    <section key={item.id} className="home-about-dynamic">
-      <h2>{item.title}</h2>
+    <section key={item.id} className="home-about-dynamic sjmc-about-text" style={{ marginBottom: '18px' }}>
+      <h2 style={{ color: 'var(--sjmc-purple)', fontWeight: 700, fontSize: '1.35rem' }}>{item.title}</h2>
       <div dangerouslySetInnerHTML={{ __html: item.description }} />
     </section>
   ));

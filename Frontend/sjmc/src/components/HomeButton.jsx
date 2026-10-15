@@ -3,26 +3,24 @@ import { Link } from 'react-router-dom'; // Import Link from React Router
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons'; // Assuming you're using Font Awesome icons
 
+import './sjmc-theme.css';
+
 function HomeButton() {
-  const buttonStyle = {
-    backgroundColor: '#780000',
-    border: 'none',
-    color: 'white',
-    padding: '12px 16px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    position: 'fixed', // Fix the position
-    bottom: '20px', // Position from bottom
-    left: '20px', // Position from left
-  };
-
-  const hoverStyle = {
-    backgroundColor: 'RoyalBlue',
-  };
-
   return (
-    <Link to="/" style={{ textDecoration: 'none' }}> {/* Link to your default page */}
-      <button className="btn" style={buttonStyle} >
+    <Link to="/" style={{ textDecoration: 'none' }}>
+      <button
+        className="btn sjmc-btn-purple"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '20px',
+          padding: '12px 16px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          zIndex: 1040,
+          boxShadow: '0 4px 14px rgba(51, 18, 90, 0.35)',
+        }}
+      >
         <FontAwesomeIcon icon={faHome} />
       </button>
     </Link>

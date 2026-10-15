@@ -3,9 +3,6 @@ using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
-using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Writer;
-using iText.Kernel.Utils;
 
 namespace SJMC.CMS.API.Services
 {
@@ -199,24 +196,9 @@ namespace SJMC.CMS.API.Services
                     await inputStream.CopyToAsync(tempStream);
                 }
 
-                using var reader = new PdfReader(tempPath);
-                using var writer = new PdfWriter(targetPath);
-                using var pdfDoc = new PdfDocument(reader, writer);
-                var compressor = new PdfCleaner();
-                compressor.CleanUp(pdfDoc);
-
-                var resultSize = new FileInfo(targetPath).Length;
-                var tempSize = new FileInfo(tempPath).Length;
-
-                if (resultSize >= tempSize)
-                {
-                    File.Delete(targetPath);
-                    File.Move(tempPath, targetPath, overwrite: true);
-                    return tempSize;
-                }
-
-                if (File.Exists(tempPath)) File.Delete(tempPath);
-                return resultSize;
+                if (File.Exists(targetPath)) File.Delete(targetPath);
+                File.Move(tempPath, targetPath, overwrite: true);
+                return new FileInfo(targetPath).Length;
             }
             catch
             {

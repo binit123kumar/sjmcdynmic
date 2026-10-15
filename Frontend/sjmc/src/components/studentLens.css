@@ -7,20 +7,34 @@
 .student-lens-section h2 {
   font-size: 2.2rem;
   margin-bottom: 10px;
+  color: var(--sjmc-purple, #4a1f7a);
+  font-weight: 800;
+  text-shadow: none;
+}
+
+.student-lens-section h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: var(--sjmc-orange, #f28c28);
+  border-radius: 4px;
+  margin: 10px auto 0;
 }
 
 .student-lens-section .subtitle {
   font-size: 1rem;
-  color: #555;
+  color: var(--sjmc-muted, #5c6280);
   margin-bottom: 40px;
 }
 
 .photo-card {
   background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 8px;
+  box-shadow: var(--sjmc-card-shadow, 0 4px 18px rgba(51, 18, 90, 0.1));
+  border-radius: var(--sjmc-radius, 14px);
   overflow: hidden;
   width: 300px; /* increase width */
+  border-bottom: 3px solid var(--sjmc-orange, #f28c28);
 }
 
 .photo-card img.photo-image {
@@ -36,18 +50,19 @@
 
 .photo-info {
   padding: 12px;
-  background-color: #f4f4f4;
+  background-color: var(--sjmc-bg, #faf9fc);
   text-align: left;
 }
 
 .photo-info strong {
   display: block;
   margin-bottom: 4px;
+  color: var(--sjmc-purple, #4a1f7a);
 }
 
 .photo-info span {
   font-size: 0.9rem;
-  color: #777;
+  color: var(--sjmc-muted, #5c6280);
 }
 
 .view-gallery {
@@ -55,7 +70,7 @@
 }
 
 .gallery-button {
-  background-color: #800000;
+  background-color: var(--sjmc-orange, #f28c28);
   color: #fff;
   padding: 12px 25px;
   border-radius: 4px;

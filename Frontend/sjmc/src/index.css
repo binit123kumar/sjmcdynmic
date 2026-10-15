@@ -1,11 +1,35 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--sjmc-bg, #faf9fc);
+  color: var(--sjmc-text, #1e2340);
+  line-height: 1.6;
 }
+
+/* ---------- SJMC global link + heading defaults ---------- */
+
+a {
+  color: var(--sjmc-purple, #4a1f7a);
+}
+
+a:hover {
+  color: var(--sjmc-orange, #f28c28);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--sjmc-purple, #4a1f7a);
+}
+
+.card, .shadow {
+  border-radius: var(--sjmc-radius, 14px);
+}
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

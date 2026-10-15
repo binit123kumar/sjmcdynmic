@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Home from '../components/HomeButton';
-import { buildApiUrl } from '../utils/api';
+import { API_BASE, buildApiUrl } from '../utils/api';
 
 const API_URL = buildApiUrl('/api/about');
 

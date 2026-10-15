@@ -5,15 +5,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace SJMC.CMS.API.Services
 {
-    public interface IAIService
-    {
-        Task<string?> GenerateContentAsync(string prompt);
-        Task<string?> GenerateAltTextAsync(string imageDescription, string context);
-        Task<string?> GenerateSummaryAsync(string content);
-        Task<string?> OptimizeSeoAsync(string title, string description);
-        Task<string?> DraftContentAsync(string contentType, string topic);
-    }
-
     public class AIService : IAIService
     {
         private readonly HttpClient _http;
@@ -81,7 +72,7 @@ namespace SJMC.CMS.API.Services
             });
         }
 
-        private async Task<string?> CallApiAsync(List<ChatMessage> messages)
+        private async Task<string?> CallApiAsync(IEnumerable<ChatMessage> messages)
         {
             try
             {

@@ -216,9 +216,9 @@ function App() {
           <Route path="/content/:slug" element={<CmsPage />} />
           <Route path="*" element={<CmsPage />} />
 
-          <Chatbot />
-
         </Routes>
+
+        <Chatbot />
       </BrowserRouter>
     </>
   );

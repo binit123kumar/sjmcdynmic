@@ -32,7 +32,7 @@ namespace SJMC.CMS.API.Controllers
                 {
                     Source = "News",
                     Title = n.Title,
-                    Snippet = n.Description?.Length > 150 ? n.Description[..150] : n.Description,
+                    Snippet = n.Description != null && n.Description.Length > 150 ? n.Description.Substring(0, 150) : n.Description,
                     Link = $"/news/{n.Id}"
                 })
                 .ToListAsync();
@@ -48,7 +48,7 @@ namespace SJMC.CMS.API.Controllers
                 {
                     Source = "Events",
                     Title = e.Title,
-                    Snippet = e.Description?.Length > 150 ? e.Description[..150] : e.Description,
+                    Snippet = e.Description != null && e.Description.Length > 150 ? e.Description.Substring(0, 150) : e.Description,
                     Link = $"/events/{e.Id}"
                 })
                 .ToListAsync();
@@ -64,7 +64,7 @@ namespace SJMC.CMS.API.Controllers
                 {
                     Source = "Gallery",
                     Title = g.Title,
-                    Snippet = g.Description?.Length > 150 ? g.Description[..150] : g.Description,
+                    Snippet = g.Description != null && g.Description.Length > 150 ? g.Description.Substring(0, 150) : g.Description,
                     Link = $"/gallery/{g.Id}"
                 })
                 .ToListAsync();
@@ -81,7 +81,7 @@ namespace SJMC.CMS.API.Controllers
                 {
                     Source = "Pages",
                     Title = p.Title,
-                    Snippet = p.Excerpt?.Length > 150 ? p.Excerpt[..150] : p.Body?.Length > 150 ? p.Body[..150] : p.Body,
+                    Snippet = p.Excerpt != null && p.Excerpt.Length > 150 ? p.Excerpt.Substring(0, 150) : p.Body != null && p.Body.Length > 150 ? p.Body.Substring(0, 150) : p.Body,
                     Link = $"/content/{p.Slug}"
                 })
                 .ToListAsync();
@@ -96,7 +96,7 @@ namespace SJMC.CMS.API.Controllers
                 {
                     Source = "Courses",
                     Title = c.Name,
-                    Snippet = c.Description?.Length > 150 ? c.Description[..150] : c.Description,
+                    Snippet = c.Description != null && c.Description.Length > 150 ? c.Description.Substring(0, 150) : c.Description,
                     Link = "/courses"
                 })
                 .ToListAsync();

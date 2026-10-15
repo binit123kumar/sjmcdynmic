@@ -66,7 +66,7 @@ export default function Chatbot() {
 
 const styles = {
   container: {
-    position: 'fixed' as const,
+    position: 'fixed',
     bottom: 20,
     right: 20,
     width: 360,
@@ -75,7 +75,7 @@ const styles = {
     borderRadius: 12,
     boxShadow: '0 4px 24px rgba(0,0,0,0.18)',
     display: 'flex',
-    flexDirection: 'column' as const,
+    flexDirection: 'column',
     zIndex: 9999,
     fontFamily: 'Kanit, sans-serif',
     overflow: 'hidden',
@@ -90,11 +90,11 @@ const styles = {
   messages: {
     flex: 1,
     padding: '10px 12px',
-    overflowY: 'auto' as const,
+    overflowY: 'auto',
     maxHeight: 320,
     minHeight: 200,
     display: 'flex',
-    flexDirection: 'column' as const,
+    flexDirection: 'column',
     gap: 6,
   },
   message: {
@@ -102,7 +102,7 @@ const styles = {
     borderRadius: 8,
     fontSize: 13,
     lineHeight: 1.4,
-    whiteSpace: 'pre-wrap' as const,
+    whiteSpace: 'pre-wrap',
   },
   botMsg: {
     background: '#f0f0f0',
