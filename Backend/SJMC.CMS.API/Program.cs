@@ -7,9 +7,9 @@ using SJMC.CMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Database (PostgreSQL via EF Core) ---
+// --- Database (SQL Server via EF Core) ---
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // --- Services ---
 builder.Services.AddScoped<IFileService, FileService>();

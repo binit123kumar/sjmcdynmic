@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0-preview.7.25380.108" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0-preview.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0-preview.7.25380.108" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0-preview.7.25380.108">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,5 +26,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+    <ItemGroup>
+    <Compile Remove="Tools\**" />
+    <EmbeddedResource Remove="Tools\**" />
+    <None Remove="Tools\**" />
   </ItemGroup>
 </Project>

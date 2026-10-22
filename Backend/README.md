@@ -1,131 +1,111 @@
-# SJMC CMS — Backend (ASP.NET Core 8 Web API + EF Core + SQL Server)
+# SJMC CMS — Backend (ASP.NET Core 10 Web API + EF Core + SQL Server)
 
-Poore CMS (About, Faculty, Staff, Gallery, News, Events, Notice, Slider, Courses,
-Downloads, Publications, Settings) ke liye complete backend, dashboard image mein
-dikhaye gaye Add/Edit/List/Delete flow ke saath.
+Complete backend for SJMC CMS (About, Faculty, Staff, Gallery, News, Events, Notice, Slider, Courses,
+Downloads, Publications, Settings, ContentPages, Media) with full CRUD operations.
 
-## ⚠️ Important — Yeh code build/run *nahi* hua hai is sandbox mein
+## Database Setup
 
-Is chat environment mein .NET SDK aur NuGet access nahi hai, isliye maine code
-compile/test nahi kar paaya. Code standard, well-tested patterns follow karta hai,
-lekin apne local machine par pehli baar run karte waqt chhoti build errors
-(typo, package version mismatch) aa sakti hain — wo normal hai, fix karna easy hoga.
+### 1. Prerequisites
 
-## 1. Prerequisites
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- SQL Server (Express/Developer/full) or SQL Server LocalDB
+- Visual Studio 2022 / VS Code / Rider
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- SQL Server (Express/Developer/full) — ya SQL Server LocalDB
-- Visual Studio 2022 / VS Code / Rider (koi bhi)
+### 2. Configure Connection String
 
-## 2. Connection string set karein
+The committed `appsettings.json` contains only placeholders. Set your actual connection string using user secrets:
 
-`SJMC.CMS.API/appsettings.json` mein apna SQL Server instance daalein:
-
-```json
-"DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=SJMC_CMS_DB;Trusted_Connection=True;TrustServerCertificate=True;"
+```bash
+cd SJMC.CMS.API
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost\\SQLEXPRESS;Database=SJMC_CMS_DB;Trusted_Connection=True;TrustServerCertificate=True;"
 ```
 
-LocalDB use kar rahe hain to:
+**SQL Express:**
 ```
-Server=(localdb)\\mssqllocaldb;Database=SJMC_CMS_DB;Trusted_Connection=True;
+Server=localhost\SQLEXPRESS;Database=SJMC_CMS_DB;Trusted_Connection=True;TrustServerCertificate=True;
 ```
 
-## 3. Database banayein — do options hain
+**LocalDB:**
+```
+Server=(localdb)\mssqllocaldb;Database=SJMC_CMS_DB;Trusted_Connection=True;TrustServerCertificate=True;
+```
 
-**Option A (recommended) — EF Core Migrations:**
+**Full SQL Server with username/password:**
+```
+Server=localhost;Database=SJMC_CMS_DB;User Id=sa;Password=YourPassword;TrustServerCertificate=True;
+```
+
+### 3. Create Database and Apply Migrations
+
 ```bash
 cd SJMC.CMS.API
 dotnet restore
-dotnet tool install --global dotnet-ef   # agar pehle se nahi hai
+dotnet tool install --global dotnet-ef   # if not already installed
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
-Migration khud table + seed data (default admin login) bana dega.
 
-**Option B — Raw SQL (agar EF tools install nahi karna):**
-SSMS ya Azure Data Studio kholein aur `Database/01_CreateDatabase.sql` phir
-`Database/02_SeedData.sql` run karein.
+This will create all tables in SQL Server.
 
-> Note: `Program.cs` mein `db.Database.Migrate()` startup par already call hota
-> hai — agar Option A use kar rahe hain to app khud future migrations apply
-> kar dega. Option B use karein to us line ko comment kar dena chahiye taaki
-> conflict na ho (migrations history table na hone se error aa sakta hai) —
-> ya phir simply Option A hi use karein, wahi zyada robust hai.
+### 4. Create Admin User
 
-## 4. Run karein
+Run the admin setup tool to create the initial admin user:
+
+```bash
+cd SJMC.CMS.API
+dotnet run --project Tools/AdminSetup.csproj --connection "Server=localhost\\SQLEXPRESS;Database=SJMC_CMS_DB;Trusted_Connection=True;TrustServerCertificate=True;" --username admin --password YourSecurePassword123! --email admin@sjmc.edu
+```
+
+Or call `AdminSetup.RunAsync()` programmatically with your connection string and desired credentials.
+
+**Note:** The admin user is created at runtime with your chosen password. No default password is stored in the repository.
+
+### 5. Run the Application
 
 ```bash
 cd SJMC.CMS.API
 dotnet run
 ```
 
-Swagger UI khulega: `https://localhost:7050/swagger` — yahan se saare 12 modules
-ke endpoints test kar sakte hain.
+Swagger UI will be available at: `https://localhost:7050/swagger`
 
-## 5. Default login
+## Authentication
 
-```
-Username: admin
-Password: Admin@123
-```
+Login via `POST /api/auth/login` with your admin credentials to get a JWT token. Use the token in the `Authorization: Bearer <token>` header for all protected endpoints.
 
-`POST /api/auth/login` call karke JWT token milega. Har protected endpoint
-(Create/Update/Delete/Toggle-status) ke liye header mein:
-```
-Authorization: Bearer <token>
-```
+## API Endpoints
 
-`GET` endpoints (list/detail) public hain — public website in modules ko bina
-login ke fetch kar sakti hai, jaisa image mein "Show On Website" flags se dikh
-raha hai.
+All modules follow the same pattern:
 
-## 6. Har module ke endpoints (pattern same hai sabke liye)
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| GET | `/api/{module}` | No | List all (supports `?activeOnly=true`) |
+| GET | `/api/{module}/{id}` | No | Get single record |
+| POST | `/api/{module}` | Yes | Create (multipart/form-data with file upload) |
+| PUT | `/api/{module}/{id}` | Yes | Update |
+| DELETE | `/api/{module}/{id}` | Yes | Delete |
+| PATCH | `/api/{module}/{id}/toggle-status` | Yes | Toggle active/inactive |
 
-Example — About (baaki 10 modules bhi isi pattern par hain: Faculty, Staff,
-Gallery, News, Events, Notice, Slider, Courses, Downloads, Publications):
+Modules: `about`, `faculty`, `staff`, `gallery`, `news`, `events`, `notice`, `slider`, `courses`, `downloads`, `publications`, `contentpages`, `media`
 
-| Method | Route                          | Auth | Notes |
-|--------|---------------------------------|------|-------|
-| GET    | `/api/about`                    | No   | List, DisplayOrder se sorted |
-| GET    | `/api/about/{id}`                | No   | Single record |
-| POST   | `/api/about`                     | Yes  | `multipart/form-data` — image upload sath |
-| PUT    | `/api/about/{id}`                 | Yes  | Update, naya image optional |
-| DELETE | `/api/about/{id}`                 | Yes  | Deletes record + uploaded file |
-| PATCH  | `/api/about/{id}/toggle-status`   | Yes  | Active/Inactive toggle |
+Additional endpoints:
+- `GET /api/dashboard/counts` - Dashboard statistics
+- `GET /api/settings` / `PUT /api/settings` - Site settings singleton
 
-Extra:
-- `GET /api/dashboard/counts` — Dashboard ke saare card badges (About: 1, Faculty: 0, etc) ek call mein.
-- `GET /api/settings` / `PUT /api/settings` — Settings singleton row.
+## File Uploads
 
-## 7. File uploads
+Files are saved to `wwwroot/uploads/{module}/` and returned as relative paths (e.g., `/uploads/about/xyz.jpg`).
 
-Images/PDFs `wwwroot/uploads/{module}/` mein save hote hain aur response mein
-web-relative path milta hai jaise `/uploads/about/xyz123.jpg` — React frontend
-mein isse seedha `<img src={API_BASE_URL + item.imagePath} />` jaisa use kar
-sakte hain.
-
-## 8. React frontend (`cgs-main`) se connect karna
-
-Uploaded `cgs-main` React project abhi ek plain public website hai (backend se
-connected nahi). Ussey is API se connect karne ke liye:
-
-1. `.env` mein `REACT_APP_API_URL=https://localhost:7050/api` add karein.
-2. `fetch(`${process.env.REACT_APP_API_URL}/about`)` jaisa calls components mein use karein.
-3. Admin CMS panel (jo image mein dikhaya gaya hai) alag se banana hoga — yeh
-   sirf backend hai. Agar chahiye to us admin dashboard UI (React/Bootstrap)
-   ka code bhi bana sakta hoon — bataiye.
-
-## Project structure
+## Project Structure
 
 ```
 SJMC.CMS.API/
-  Controllers/       -> 13 controllers (Auth, Dashboard, + 11 modules incl. Settings)
-  Models/Entities.cs  -> All EF Core entities
+  Controllers/           -> All API controllers
+  Models/Entities.cs      -> EF Core entities
   Data/ApplicationDbContext.cs
-  DTOs/               -> Login + Dashboard DTOs (module Form DTOs live inside their controllers)
-  Services/           -> JWT TokenService, FileService (uploads)
-  Program.cs          -> JWT auth, CORS, Swagger, static files, auto-migrate
-Database/
-  01_CreateDatabase.sql
-  02_SeedData.sql
+  Services/               -> JWT TokenService, FileService
+  Program.cs              -> App configuration
+  Tools/AdminSetup.cs     -> Admin user creation tool
+Migrations_Postgres_Backup/ -> Old PostgreSQL migrations (archived)
 ```

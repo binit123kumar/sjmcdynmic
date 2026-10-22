@@ -13,7 +13,7 @@ namespace SJMC.CMS.API.Tools
         public static async Task RunAsync(string connectionString, string username = "admin", string password = "Admin@123", string email = "admin@sjmc.edu")
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseNpgsql(connectionString)
+                .UseSqlServer(connectionString)
                 .Options;
 
             using var db = new ApplicationDbContext(options);

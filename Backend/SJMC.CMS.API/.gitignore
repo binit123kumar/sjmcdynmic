@@ -3,4 +3,6 @@ obj/
 wwwroot/uploads/*
 !wwwroot/uploads/.gitkeep
 appsettings.Production.json
+appsettings.json
 *.user
+db.sql
