@@ -34,7 +34,7 @@ namespace SJMC.CMS.API.Controllers
             return item == null ? NotFound(ApiResponse<object>.Fail("Record not found.")) : Ok(ApiResponse<NewsItem>.Ok(item));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] NewsFormDto dto)
         {
             var entity = new NewsItem
@@ -48,7 +48,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<NewsItem>.Ok(entity, "News created successfully."));
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] NewsFormDto dto)
         {
             var entity = await _db.NewsItems.FindAsync(id);
@@ -64,7 +64,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<NewsItem>.Ok(entity, "News updated successfully."));
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.NewsItems.FindAsync(id);
@@ -75,7 +75,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<object>.Ok(null!, "News deleted successfully."));
         }
 
-        [HttpPatch("{id}/toggle-status"), Authorize]
+        [HttpPatch("{id}/toggle-status"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.NewsItems.FindAsync(id);

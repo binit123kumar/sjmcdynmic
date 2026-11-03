@@ -10,7 +10,7 @@ namespace SJMC.CMS.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AIController : ControllerBase
     {
         private readonly IAIService _aiService;

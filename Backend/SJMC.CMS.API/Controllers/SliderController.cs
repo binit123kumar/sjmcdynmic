@@ -34,7 +34,7 @@ namespace SJMC.CMS.API.Controllers
             return item == null ? NotFound(ApiResponse<object>.Fail("Record not found.")) : Ok(ApiResponse<SliderItem>.Ok(item));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] SliderFormDto dto)
         {
             if (dto.Image == null) return BadRequest(ApiResponse<object>.Fail("Image is required."));
@@ -49,7 +49,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<SliderItem>.Ok(entity, "Slide added successfully."));
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] SliderFormDto dto)
         {
             var entity = await _db.SliderItems.FindAsync(id);
@@ -65,7 +65,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<SliderItem>.Ok(entity, "Slide updated successfully."));
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.SliderItems.FindAsync(id);
@@ -76,7 +76,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<object>.Ok(null!, "Slide deleted successfully."));
         }
 
-        [HttpPatch("{id}/toggle-status"), Authorize]
+        [HttpPatch("{id}/toggle-status"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.SliderItems.FindAsync(id);

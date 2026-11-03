@@ -30,5 +30,8 @@ namespace SJMC.CMS.API.DTOs
         public int Courses { get; set; }
         public int Downloads { get; set; }
         public int Publications { get; set; }
+        public int QuickLinks { get; set; }
+        public int HeroContent { get; set; }
+        public int SiteStats { get; set; }
     }
 }

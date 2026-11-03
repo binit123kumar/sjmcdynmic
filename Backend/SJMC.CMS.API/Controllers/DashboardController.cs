@@ -9,7 +9,7 @@ namespace SJMC.CMS.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DashboardController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -31,7 +31,10 @@ namespace SJMC.CMS.API.Controllers
                 Slider = await _db.SliderItems.CountAsync(x => x.IsActive),
                 Courses = await _db.Courses.CountAsync(x => x.IsActive),
                 Downloads = await _db.DownloadItems.CountAsync(x => x.IsActive),
-                Publications = await _db.Publications.CountAsync(x => x.IsActive)
+                Publications = await _db.Publications.CountAsync(x => x.IsActive),
+                QuickLinks = await _db.QuickLinks.CountAsync(x => x.IsActive),
+                HeroContent = await _db.HeroContents.CountAsync(x => x.IsActive),
+                SiteStats = await _db.SiteStats.CountAsync(x => x.IsActive)
             };
 
             return Ok(ApiResponse<DashboardCountsDto>.Ok(counts));

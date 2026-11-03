@@ -350,6 +350,79 @@ export const modules = {
       { key: 'status', label: 'Status' },
     ],
   },
+
+  quicklinks: {
+    key: 'quicklinks',
+    label: 'Quick Links',
+    icon: 'bi-link-45deg',
+    color: '#7c3aed',
+    endpoint: '/quicklink',
+    titleField: 'title',
+    imageField: null,
+    fields: [
+      { name: 'icon', label: 'Font Awesome Icon', type: 'text', required: true, hint: 'Example: fa-graduation-cap' },
+      { name: 'title', label: 'Title', type: 'text', required: true, full: true },
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'linkUrl', label: 'Link URL', type: 'text', required: true, hint: 'Example: /admissions' },
+      { name: 'displayOrder', label: 'Display Order', type: 'number', default: 1 },
+      { name: 'isActive', label: 'Active', type: 'checkbox', default: true },
+    ],
+    columns: [
+      { key: 'title', label: 'Title' },
+      { key: 'icon', label: 'Icon' },
+      { key: 'linkUrl', label: 'Link' },
+      { key: 'displayOrder', label: 'Order' },
+      { key: 'status', label: 'Status' },
+    ],
+  },
+
+  herocontent: {
+    key: 'herocontent',
+    label: 'Hero Content',
+    icon: 'bi-house-door',
+    color: '#ea580c',
+    endpoint: '/herocontent',
+    titleField: 'tagline',
+    imageField: null,
+    fields: [
+      { name: 'tagline', label: 'Tagline', type: 'text', required: true, full: true },
+      { name: 'pillars', label: 'Pillars (JSON)', type: 'textarea', full: true, hint: 'JSON array of pillar names' },
+      { name: 'ctaButtons', label: 'CTA Buttons (JSON)', type: 'textarea', full: true, hint: 'JSON array of button objects' },
+      { name: 'campusImagePath', label: 'Campus Image Path', type: 'text' },
+      { name: 'mediaStudioImagePath', label: 'Media Studio Image Path', type: 'text' },
+      { name: 'displayOrder', label: 'Display Order', type: 'number', default: 1 },
+      { name: 'isActive', label: 'Active', type: 'checkbox', default: true },
+    ],
+    columns: [
+      { key: 'tagline', label: 'Tagline' },
+      { key: 'displayOrder', label: 'Order' },
+      { key: 'status', label: 'Status' },
+    ],
+  },
+
+  sitestats: {
+    key: 'sitestats',
+    label: 'Site Statistics',
+    icon: 'bi-bar-chart',
+    color: '#0891b2',
+    endpoint: '/sitestat',
+    titleField: 'label',
+    imageField: null,
+    fields: [
+      { name: 'label', label: 'Label', type: 'text', required: true, hint: 'Example: 50+ Years' },
+      { name: 'value', label: 'Value', type: 'text', required: true, hint: 'Example: 50+' },
+      { name: 'iconName', label: 'Font Awesome Icon', type: 'text', required: true, hint: 'Example: fa-history' },
+      { name: 'displayOrder', label: 'Display Order', type: 'number', default: 1 },
+      { name: 'isActive', label: 'Active', type: 'checkbox', default: true },
+    ],
+    columns: [
+      { key: 'label', label: 'Label' },
+      { key: 'value', label: 'Value' },
+      { key: 'iconName', label: 'Icon' },
+      { key: 'displayOrder', label: 'Order' },
+      { key: 'status', label: 'Status' },
+    ],
+  },
 };
 
 export const moduleList = Object.values(modules);

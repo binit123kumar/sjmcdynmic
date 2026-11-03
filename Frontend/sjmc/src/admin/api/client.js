@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || (typeof process !== 'undefined' && process.env.REACT_APP_API_URL) || 'https://sjmc-cms-api.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5050/api';
 
 const client = axios.create({ baseURL: API_URL });
 

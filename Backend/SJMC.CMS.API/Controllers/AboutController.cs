@@ -43,7 +43,7 @@ namespace SJMC.CMS.API.Controllers
 
         // POST api/about  (multipart/form-data)
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] AboutFormDto dto)
         {
             var entity = new About
@@ -72,7 +72,7 @@ namespace SJMC.CMS.API.Controllers
 
         // PUT api/about/5  (multipart/form-data)
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] AboutFormDto dto)
         {
             var entity = await _db.Abouts.FindAsync(id);
@@ -103,7 +103,7 @@ namespace SJMC.CMS.API.Controllers
 
         // DELETE api/about/5
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.Abouts.FindAsync(id);
@@ -117,7 +117,7 @@ namespace SJMC.CMS.API.Controllers
 
         // PATCH api/about/5/toggle-status
         [HttpPatch("{id}/toggle-status")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.Abouts.FindAsync(id);

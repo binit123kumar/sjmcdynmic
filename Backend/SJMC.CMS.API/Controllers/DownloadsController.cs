@@ -34,7 +34,7 @@ namespace SJMC.CMS.API.Controllers
             return item == null ? NotFound(ApiResponse<object>.Fail("Record not found.")) : Ok(ApiResponse<DownloadItem>.Ok(item));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] DownloadFormDto dto)
         {
             if (dto.File == null) return BadRequest(ApiResponse<object>.Fail("File is required."));
@@ -49,7 +49,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<DownloadItem>.Ok(entity, "Download added successfully."));
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] DownloadFormDto dto)
         {
             var entity = await _db.DownloadItems.FindAsync(id);
@@ -65,7 +65,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<DownloadItem>.Ok(entity, "Download updated successfully."));
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.DownloadItems.FindAsync(id);
@@ -76,7 +76,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<object>.Ok(null!, "Download deleted successfully."));
         }
 
-        [HttpPatch("{id}/toggle-status"), Authorize]
+        [HttpPatch("{id}/toggle-status"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.DownloadItems.FindAsync(id);

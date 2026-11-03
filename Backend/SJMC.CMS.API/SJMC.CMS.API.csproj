@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Nullable>disable</Nullable>
+    <Nullable>annotations</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>cfe03205-80a6-4deb-b471-ca32883a21fa</UserSecretsId>
   </PropertyGroup>
@@ -21,15 +21,10 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="4.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="iText7" Version="7.2.5" />
+    <PackageReference Include="iText7" version="7.2.5" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\uploads\" />
-  </ItemGroup>
-    <ItemGroup>
-    <Compile Remove="Tools\**" />
-    <EmbeddedResource Remove="Tools\**" />
-    <None Remove="Tools\**" />
   </ItemGroup>
 </Project>

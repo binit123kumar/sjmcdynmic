@@ -35,7 +35,7 @@ namespace SJMC.CMS.API.Controllers
         }
 
         // PUT api/settings  (multipart/form-data, updates the single settings row)
-        [HttpPut, Authorize]
+        [HttpPut, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromForm] SettingsFormDto dto)
         {
             var settings = await _db.SiteSettings.FirstOrDefaultAsync();

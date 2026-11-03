@@ -20,6 +20,7 @@ const MainContent = () => {
     const [courses, setCourses] = useState([]);
     const [aboutItems, setAboutItems] = useState([]);
     const [galleryItems, setGalleryItems] = useState([]);
+    const [quickLinks, setQuickLinks] = useState([]);
     const [galleryLoading, setGalleryLoading] = useState(true);
     const [galleryError, setGalleryError] = useState('');
 
@@ -67,24 +68,13 @@ const MainContent = () => {
             })
             .catch(() => { if (mounted) setAboutItems([]); });
 
+        fetch(`${API_BASE}/api/quicklink`)
+            .then((response) => response.json())
+            .then((json) => { if (mounted) setQuickLinks(json.data || []); })
+            .catch(() => { if (mounted) setQuickLinks([]); });
+
         return () => { mounted = false; };
     }, []);
-
-    const quickLinks = [
-        { icon: 'fa-graduation-cap', title: 'Admissions', desc: 'Apply Online', link: '/upcomingEvents' },
-        { icon: 'fa-calendar', title: 'Academic Calendar', desc: 'View Schedule', link: '/upcomingEvents' },
-        { icon: 'fa-edit', title: 'Examinations', desc: 'Results & Notices', link: '/upcomingEvents' },
-        { icon: 'fa-user-circle', title: 'Student Portal', desc: 'Login', link: '/admin/login' },
-        { icon: 'fa-book', title: 'Library', desc: 'Digital Resources', link: '/Library' },
-        { icon: 'fa-newspaper-o', title: 'News & Events', desc: 'Latest Updates', link: '/upcomingEvents' },
-    ];
-
-    const programmes = [
-        { title: 'M.A. in Journalism and Mass Communication', desc: 'Postgraduate programme covering reporting, editing, media production and communication research.', link: '/MA' },
-        { title: 'Ph.D. in Mass Communication', desc: 'Doctoral research programme in media studies and communication.', link: '/PhD' },
-        { title: 'PG Diploma Courses', desc: 'Development Communication, Film Making, Digital Journalism, Photography and Science Communication.', link: '/page15' },
-        { title: 'Certificate & Skill Development', desc: 'Certificate course in writing for media and free skill development training programmes.', link: '/page16' },
-    ];
 
     const splitDate = (value) => {
         if (!value) return null;
@@ -143,15 +133,17 @@ const MainContent = () => {
                     <h2 className="sjmc-section-title">Quick Access</h2>
                     <p className="sjmc-section-sub">Everything you need, one click away</p>
                     <div className="sjmc-quick-scroll row g-3">
-                        {quickLinks.map((item) => (
-                            <div className="col-6 col-md-4 col-lg-2" key={item.title}>
-                                <Link to={item.link} className="sjmc-quick-card">
+                        {quickLinks.length > 0 ? quickLinks.map((item) => (
+                            <div className="col-6 col-md-4 col-lg-2" key={item.id}>
+                                <Link to={item.linkUrl} className="sjmc-quick-card">
                                     <div className="sjmc-quick-icon"><i className={`fa ${item.icon}`}></i></div>
                                     <h5>{item.title}</h5>
-                                    <p>{item.desc}</p>
+                                    <p>{item.description}</p>
                                 </Link>
                             </div>
-                        ))}
+                        )) : (
+                            <div className="col-12"><p className="text-center text-muted">Quick links loading...</p></div>
+                        )}
                     </div>
                 </div>
             </section>
@@ -245,18 +237,8 @@ const MainContent = () => {
                 <div className="container">
                     <h2 className="sjmc-section-title">Our Programmes</h2>
                     <p className="sjmc-section-sub">Academic offerings at SJMC</p>
-                    <div className="row g-4">
-                        {programmes.map((programme) => (
-                            <div className="col-md-6 col-lg-3" key={programme.title}>
-                                <Link to={programme.link} className="sjmc-programme-card">
-                                    <h5>{programme.title}</h5>
-                                    <p>{programme.desc}</p>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-                        {courses.length > 0 && (
-                        <div className="row g-4 mt-4">
+                    {courses.length > 0 ? (
+                        <div className="row g-4">
                             {courses.map((course) => (
                                 <div className="col-12 col-sm-6 col-lg-3" key={course.id}>
                                     <div className="sjmc-programme-card sjmc-programme-hover">
@@ -276,6 +258,8 @@ const MainContent = () => {
                                 </div>
                             ))}
                         </div>
+                    ) : (
+                        <p className="text-center text-muted">Programmes loading...</p>
                     )}
                 </div>
             </section>
@@ -286,7 +270,7 @@ const MainContent = () => {
                     <div className="row text-center gy-4">
                         <div className="col-6 col-md-3">
                             <div className="sjmc-stat-icon"><i className="fa fa-graduation-cap"></i></div>
-                            <div className="sjmc-stat-value">{programmes.length + courses.length}</div>
+                            <div className="sjmc-stat-value">{courses.length}</div>
                             <div className="sjmc-stat-label">Programmes &amp; Courses</div>
                         </div>
                         <div className="col-6 col-md-3">

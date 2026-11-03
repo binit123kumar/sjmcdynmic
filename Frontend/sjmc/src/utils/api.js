@@ -1,4 +1,4 @@
-export const API_BASE = (process.env.REACT_APP_API_URL || 'https://localhost:7050/api').replace(/\/api\/?$/, '');
+export const API_BASE = (process.env.REACT_APP_API_URL || 'http://localhost:5050/api').replace(/\/api\/?$/, '');
 
 export const getApiBase = () => API_BASE;
 

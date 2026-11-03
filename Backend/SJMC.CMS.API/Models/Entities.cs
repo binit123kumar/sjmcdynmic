@@ -176,4 +176,28 @@ namespace SJMC.CMS.API.Models
         public DateTime? LastLogin { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
+
+    public class QuickLink : BaseEntity
+    {
+        [Required, MaxLength(100)] public string Icon { get; set; } = string.Empty;
+        [Required, MaxLength(100)] public string Title { get; set; } = string.Empty;
+        [MaxLength(200)] public string? Description { get; set; }
+        [Required, MaxLength(300)] public string LinkUrl { get; set; } = string.Empty;
+    }
+
+    public class HeroContent : BaseEntity
+    {
+        [Required, MaxLength(300)] public string Tagline { get; set; } = string.Empty;
+        public string? Pillars { get; set; }
+        public string? CtaButtons { get; set; }
+        [MaxLength(300)] public string? CampusImagePath { get; set; }
+        [MaxLength(300)] public string? MediaStudioImagePath { get; set; }
+    }
+
+    public class SiteStat : BaseEntity
+    {
+        [Required, MaxLength(100)] public string Label { get; set; } = string.Empty;
+        [Required, MaxLength(100)] public string Value { get; set; } = string.Empty;
+        [Required, MaxLength(50)] public string IconName { get; set; } = string.Empty;
+    }
 }

@@ -96,6 +96,7 @@ namespace SJMC.CMS.API.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -107,6 +108,7 @@ namespace SJMC.CMS.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -438,6 +440,50 @@ namespace SJMC.CMS.API.Migrations
                     b.ToTable("GalleryItems");
                 });
 
+            modelBuilder.Entity("SJMC.CMS.API.Models.HeroContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CampusImagePath")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CtaButtons")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MediaStudioImagePath")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Pillars")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tagline")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HeroContents");
+                });
+
             modelBuilder.Entity("SJMC.CMS.API.Models.MediaFile", b =>
                 {
                     b.Property<int>("Id")
@@ -625,6 +671,118 @@ namespace SJMC.CMS.API.Migrations
                     b.ToTable("Publications");
                 });
 
+            modelBuilder.Entity("SJMC.CMS.API.Models.QuickLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LinkUrl")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuickLinks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Apply Online",
+                            DisplayOrder = 1,
+                            Icon = "fa-graduation-cap",
+                            IsActive = true,
+                            LinkUrl = "/upcomingEvents",
+                            Title = "Admissions"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "View Schedule",
+                            DisplayOrder = 2,
+                            Icon = "fa-calendar",
+                            IsActive = true,
+                            LinkUrl = "/upcomingEvents",
+                            Title = "Academic Calendar"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Results & Notices",
+                            DisplayOrder = 3,
+                            Icon = "fa-edit",
+                            IsActive = true,
+                            LinkUrl = "/upcomingEvents",
+                            Title = "Examinations"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Login",
+                            DisplayOrder = 4,
+                            Icon = "fa-user-circle",
+                            IsActive = true,
+                            LinkUrl = "/admin/login",
+                            Title = "Student Portal"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Digital Resources",
+                            DisplayOrder = 5,
+                            Icon = "fa-book",
+                            IsActive = true,
+                            LinkUrl = "/Library",
+                            Title = "Library"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Latest Updates",
+                            DisplayOrder = 6,
+                            Icon = "fa-newspaper-o",
+                            IsActive = true,
+                            LinkUrl = "/upcomingEvents",
+                            Title = "News & Events"
+                        });
+                });
+
             modelBuilder.Entity("SJMC.CMS.API.Models.SiteSetting", b =>
                 {
                     b.Property<int>("Id")
@@ -662,6 +820,7 @@ namespace SJMC.CMS.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("SiteName")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -686,7 +845,100 @@ namespace SJMC.CMS.API.Migrations
                             Email = "",
                             MetaTitle = "SJMC - School of Journalism and Mass Communication",
                             Phone = "",
-                            SiteName = "SJMC"
+                            SiteName = "SJMC",
+                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("SJMC.CMS.API.Models.SiteStat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IconName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SiteStats");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DisplayOrder = 1,
+                            IconName = "fa-history",
+                            IsActive = true,
+                            Label = "50+ Years",
+                            Value = "50+"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DisplayOrder = 2,
+                            IconName = "fa-graduation-cap",
+                            IsActive = true,
+                            Label = "15+ Programmes",
+                            Value = "15+"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DisplayOrder = 3,
+                            IconName = "fa-users",
+                            IsActive = true,
+                            Label = "5000+ Students",
+                            Value = "5000+"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DisplayOrder = 4,
+                            IconName = "fa-chalkboard-teacher",
+                            IsActive = true,
+                            Label = "100+ Faculty",
+                            Value = "100+"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DisplayOrder = 5,
+                            IconName = "fa-star",
+                            IsActive = true,
+                            Label = "100% Quality",
+                            Value = "100%"
                         });
                 });
 

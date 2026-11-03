@@ -51,7 +51,7 @@ namespace SJMC.CMS.API.Controllers
                 : Ok(ApiResponse<GalleryItem>.Ok(item));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] GalleryFormDto dto)
         {
             if (dto.Image == null)
@@ -117,7 +117,7 @@ namespace SJMC.CMS.API.Controllers
             );
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(
             int id,
             [FromForm] GalleryFormDto dto)
@@ -215,7 +215,7 @@ namespace SJMC.CMS.API.Controllers
             );
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.GalleryItems.FindAsync(id);
@@ -241,7 +241,7 @@ namespace SJMC.CMS.API.Controllers
             );
         }
 
-        [HttpPatch("{id}/toggle-status"), Authorize]
+        [HttpPatch("{id}/toggle-status"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.GalleryItems.FindAsync(id);

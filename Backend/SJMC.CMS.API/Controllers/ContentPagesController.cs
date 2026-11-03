@@ -35,7 +35,7 @@ namespace SJMC.CMS.API.Controllers
                 : Ok(ApiResponse<ContentPage>.Ok(page));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] ContentPageFormDto dto)
         {
             var slug = Slugify(dto.Slug, dto.Title);
@@ -54,7 +54,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<ContentPage>.Ok(entity, "Page created successfully."));
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] ContentPageFormDto dto)
         {
             var entity = await _db.ContentPages.FindAsync(id);
@@ -76,7 +76,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<ContentPage>.Ok(entity, "Page updated successfully."));
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.ContentPages.FindAsync(id);
@@ -87,7 +87,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<object>.Ok(null!, "Page deleted successfully."));
         }
 
-        [HttpPatch("{id}/toggle-status"), Authorize]
+        [HttpPatch("{id}/toggle-status"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var entity = await _db.ContentPages.FindAsync(id);

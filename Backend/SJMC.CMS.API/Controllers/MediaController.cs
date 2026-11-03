@@ -26,7 +26,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<List<MediaFile>>.Ok(await query.OrderByDescending(x => x.UploadedDate).ToListAsync()));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] MediaFormDto dto)
         {
             if (dto.File == null) return BadRequest(ApiResponse<object>.Fail("File is required."));
@@ -47,7 +47,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<MediaFile>.Ok(entity, "Media uploaded successfully."));
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] MediaFormDto dto)
         {
             var entity = await _db.MediaFiles.FindAsync(id);
@@ -69,7 +69,7 @@ namespace SJMC.CMS.API.Controllers
             return Ok(ApiResponse<MediaFile>.Ok(entity, "Media updated successfully."));
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _db.MediaFiles.FindAsync(id);

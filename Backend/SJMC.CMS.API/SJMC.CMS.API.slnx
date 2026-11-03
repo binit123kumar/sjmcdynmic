@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="SJMC.CMS.API.csproj" />
   <Project Path="..\SJMC.CMS.API.Tests\SJMC.CMS.API.Tests.csproj" />
+  <Project Path="..\SJMC.CMS.API.Tools\Tools.csproj" />
 </Solution>
