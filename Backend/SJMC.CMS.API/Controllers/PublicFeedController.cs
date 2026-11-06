@@ -7,7 +7,7 @@ using SJMC.CMS.API.Models;
 namespace SJMC.CMS.API.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/public-feed")]
     public class PublicFeedController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
