@@ -1,13 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API_BASE } from '../utils/api';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'bot', text: 'How can I help you today? Ask about news, events, courses, gallery, or pages.' },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getGreeting = () => {
+      const hour = new Date().getHours();
+      if (hour < 12) return 'Good morning';
+      if (hour < 17) return 'Good afternoon';
+      return 'Good evening';
+    };
+
+    const greeting = getGreeting();
+    setMessages([
+      {
+        role: 'bot',
+        text: `${greeting}! Welcome to SJMC (School of Journalism and Mass Communication, AKU Patna).\n\n📚 About Us:\n• 50+ Years of Excellence\n• 15+ Programmes\n• 5000+ Students\n• 100+ Faculty\n• 100% Quality Education\n\n🔍 I can help you find information about:\n• News & Updates\n• Events & Calendar\n• Courses & Admissions\n• Gallery & Activities\n• General Pages\n\nHow can I assist you today?`
+      }
+    ]);
+  }, []);
 
   async function send() {
     if (!input.trim()) return;
