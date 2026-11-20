@@ -40,7 +40,7 @@ export default function Chatbot() {
       const data = await res.json();
       const botText = data?.data?.results?.length
         ? data.data.results
-            .map((r) => `[${r.Source}] ${r.Title}: ${r.Snippet || ''}`)
+            .map((r) => `[${r.source}] ${r.title}: ${r.snippet || ''}`)
             .join('\n\n')
         : 'I couldn\'t find any relevant information.';
       setMessages((prev) => [...prev, { role: 'bot', text: botText }]);
