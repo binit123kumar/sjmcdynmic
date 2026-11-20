@@ -32,7 +32,7 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/chatbot/ask`, {
+      const res = await fetch(`${API_BASE}/api/chatbot/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMsg.text }),
