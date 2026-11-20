@@ -23,10 +23,10 @@ namespace SJMC.CMS.API.Controllers
             var query = request.Message.ToLowerInvariant();
             var results = new ChatResponse();
 
-            var news = await _db.NewsItems
-                .Where(n => n.IsActive &&
-                    (n.Title.ToLowerInvariant().Contains(query) ||
-                     n.Description != null && n.Description.ToLowerInvariant().Contains(query)))
+            // Use client-side evaluation for search since ToLowerInvariant is not SQL-translatable
+            var news = (await _db.NewsItems.Where(n => n.IsActive).ToListAsync())
+                .Where(n => n.Title.ToLowerInvariant().Contains(query) ||
+                         (n.Description != null && n.Description.ToLowerInvariant().Contains(query)))
                 .Take(3)
                 .Select(n => new ChatHit
                 {
@@ -35,14 +35,13 @@ namespace SJMC.CMS.API.Controllers
                     Snippet = n.Description != null && n.Description.Length > 150 ? n.Description.Substring(0, 150) : n.Description,
                     Link = $"/news/{n.Id}"
                 })
-                .ToListAsync();
+                .ToList();
             results.Results.AddRange(news);
 
-            var events = await _db.EventItems
-                .Where(e => e.IsActive &&
-                    (e.Title.ToLowerInvariant().Contains(query) ||
-                     e.Description != null && e.Description.ToLowerInvariant().Contains(query) ||
-                     e.Venue != null && e.Venue.ToLowerInvariant().Contains(query)))
+            var events = (await _db.EventItems.Where(e => e.IsActive).ToListAsync())
+                .Where(e => e.Title.ToLowerInvariant().Contains(query) ||
+                         (e.Description != null && e.Description.ToLowerInvariant().Contains(query)) ||
+                         (e.Venue != null && e.Venue.ToLowerInvariant().Contains(query)))
                 .Take(3)
                 .Select(e => new ChatHit
                 {
@@ -51,14 +50,13 @@ namespace SJMC.CMS.API.Controllers
                     Snippet = e.Description != null && e.Description.Length > 150 ? e.Description.Substring(0, 150) : e.Description,
                     Link = $"/events/{e.Id}"
                 })
-                .ToListAsync();
+                .ToList();
             results.Results.AddRange(events);
 
-            var gallery = await _db.GalleryItems
-                .Where(g => g.IsActive &&
-                    (g.Title.ToLowerInvariant().Contains(query) ||
-                     g.AltText != null && g.AltText.ToLowerInvariant().Contains(query) ||
-                     g.Description != null && g.Description.ToLowerInvariant().Contains(query)))
+            var gallery = (await _db.GalleryItems.Where(g => g.IsActive).ToListAsync())
+                .Where(g => g.Title.ToLowerInvariant().Contains(query) ||
+                         (g.AltText != null && g.AltText.ToLowerInvariant().Contains(query)) ||
+                         (g.Description != null && g.Description.ToLowerInvariant().Contains(query)))
                 .Take(3)
                 .Select(g => new ChatHit
                 {
@@ -67,15 +65,14 @@ namespace SJMC.CMS.API.Controllers
                     Snippet = g.Description != null && g.Description.Length > 150 ? g.Description.Substring(0, 150) : g.Description,
                     Link = $"/gallery/{g.Id}"
                 })
-                .ToListAsync();
+                .ToList();
             results.Results.AddRange(gallery);
 
-            var pages = await _db.ContentPages
-                .Where(p => p.IsActive &&
-                    (p.Title.ToLowerInvariant().Contains(query) ||
-                     p.Body != null && p.Body.ToLowerInvariant().Contains(query) ||
-                     p.Excerpt != null && p.Excerpt.ToLowerInvariant().Contains(query) ||
-                     p.Slug.ToLowerInvariant().Contains(query)))
+            var pages = (await _db.ContentPages.Where(p => p.IsActive).ToListAsync())
+                .Where(p => p.Title.ToLowerInvariant().Contains(query) ||
+                         (p.Body != null && p.Body.ToLowerInvariant().Contains(query)) ||
+                         (p.Excerpt != null && p.Excerpt.ToLowerInvariant().Contains(query)) ||
+                         p.Slug.ToLowerInvariant().Contains(query))
                 .Take(3)
                 .Select(p => new ChatHit
                 {
@@ -84,13 +81,12 @@ namespace SJMC.CMS.API.Controllers
                     Snippet = p.Excerpt != null && p.Excerpt.Length > 150 ? p.Excerpt.Substring(0, 150) : p.Body != null && p.Body.Length > 150 ? p.Body.Substring(0, 150) : p.Body,
                     Link = $"/content/{p.Slug}"
                 })
-                .ToListAsync();
+                .ToList();
             results.Results.AddRange(pages);
 
-            var courses = await _db.Courses
-                .Where(c => c.IsActive &&
-                    (c.Name.ToLowerInvariant().Contains(query) ||
-                     c.Description != null && c.Description.ToLowerInvariant().Contains(query)))
+            var courses = (await _db.Courses.Where(c => c.IsActive).ToListAsync())
+                .Where(c => c.Name.ToLowerInvariant().Contains(query) ||
+                         (c.Description != null && c.Description.ToLowerInvariant().Contains(query)))
                 .Take(3)
                 .Select(c => new ChatHit
                 {
@@ -99,7 +95,7 @@ namespace SJMC.CMS.API.Controllers
                     Snippet = c.Description != null && c.Description.Length > 150 ? c.Description.Substring(0, 150) : c.Description,
                     Link = "/courses"
                 })
-                .ToListAsync();
+                .ToList();
             results.Results.AddRange(courses);
 
             if (results.Results.Count == 0)

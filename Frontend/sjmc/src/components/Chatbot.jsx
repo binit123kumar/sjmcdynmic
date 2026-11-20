@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { API_BASE } from '../utils/api';
 
 export default function Chatbot() {
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { role: 'bot', text: 'How can I help you today? Ask about news, events, courses, gallery, or pages.' },
   ]);
@@ -36,31 +37,43 @@ export default function Chatbot() {
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <span style={styles.title}>💬 SJMC Assistant</span>
-      </div>
-      <div style={styles.messages}>
-        {messages.map((m, i) => (
-          <div key={i} style={{ ...styles.message, ...(m.role === 'user' ? styles.userMsg : styles.botMsg) }}>
-            {m.text}
+    <>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        style={styles.toggleBtn}
+        title={isOpen ? 'Close Chat' : 'Open Chat'}
+      >
+        {isOpen ? '✕' : '💬'}
+      </button>
+      {isOpen && (
+        <div style={styles.container}>
+          <div style={styles.header}>
+            <span style={styles.title}>💬 SJMC Assistant</span>
+            <button onClick={() => setIsOpen(false)} style={styles.closeBtn}>✕</button>
           </div>
-        ))}
-        {loading && <div style={styles.botMsg}>Searching...</div>}
-      </div>
-      <div style={styles.inputRow}>
-        <input
-          style={styles.input}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && send()}
-          placeholder="Ask about news, events, courses..."
-        />
-        <button style={styles.btn} onClick={send} disabled={loading}>
-          Send
-        </button>
-      </div>
-    </div>
+          <div style={styles.messages}>
+            {messages.map((m, i) => (
+              <div key={i} style={{ ...styles.message, ...(m.role === 'user' ? styles.userMsg : styles.botMsg) }}>
+                {m.text}
+              </div>
+            ))}
+            {loading && <div style={styles.botMsg}>Searching...</div>}
+          </div>
+          <div style={styles.inputRow}>
+            <input
+              style={styles.input}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && send()}
+              placeholder="Ask about news, events, courses..."
+            />
+            <button style={styles.btn} onClick={send} disabled={loading}>
+              Send
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -155,5 +168,39 @@ const styles = {
     fontFamily: 'inherit',
     transition: 'all 0.3s ease',
     boxShadow: '0 4px 15px rgba(245, 87, 108, 0.4)',
+  },
+  toggleBtn: {
+    position: 'fixed',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: '50%',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: '#fff',
+    border: 'none',
+    fontSize: 24,
+    cursor: 'pointer',
+    boxShadow: '0 4px 20px rgba(102, 126, 234, 0.5)',
+    zIndex: 10000,
+    transition: 'all 0.3s ease',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeBtn: {
+    background: 'none',
+    border: 'none',
+    color: '#fff',
+    fontSize: 18,
+    cursor: 'pointer',
+    padding: 0,
+    width: 24,
+    height: 24,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    transition: 'background 0.2s ease',
   },
 };
