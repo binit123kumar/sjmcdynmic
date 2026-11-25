@@ -58,6 +58,16 @@ export default function FormModal({ config, record, onClose, onSubmit, saving })
       }
     }
 
+    // Special handling for applications - send as JSON for status update
+    if (config.key === 'applications' && isEdit) {
+      const jsonData = {
+        status: values.status,
+        adminRemarks: values.adminRemarks
+      };
+      onSubmit(jsonData);
+      return;
+    }
+
     const formData = new FormData();
     config.fields.forEach((f) => {
       if (f.type === 'file') {
@@ -151,6 +161,15 @@ function FieldInput({ field, value, onChange, onFile, selectedFile, currentImage
     return () => URL.revokeObjectURL(url);
   }, [selectedFile]);
 
+  if (field.readonly) {
+    return (
+      <div className={wrapClass}>
+        <label>{field.label}</label>
+        <input type="text" value={value || ''} disabled className="readonly-field" />
+      </div>
+    );
+  }
+
   if (field.type === 'checkbox') {
     return (
       <div className={wrapClass}>
@@ -158,6 +177,19 @@ function FieldInput({ field, value, onChange, onFile, selectedFile, currentImage
           <input type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)} />
           {field.label}
         </label>
+      </div>
+    );
+  }
+
+  if (field.type === 'select') {
+    return (
+      <div className={wrapClass}>
+        <label>{field.label}{field.required && <span className="req"> *</span>}</label>
+        <select value={value} onChange={(e) => onChange(e.target.value)}>
+          {field.options?.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
       </div>
     );
   }

@@ -23,7 +23,7 @@ export default function Dashboard() {
 
   // Backend DashboardCountsDto uses PascalCase-ish camelCase keys like
   // "about", "faculty", "staff", "gallery", "news", "events", "notice",
-  // "slider", "courses", "downloads", "publications"
+  // "slider", "courses", "downloads", "publications", "applications"
   function countFor(key) {
     return counts[key] ?? 0;
   }

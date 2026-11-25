@@ -33,5 +33,6 @@ namespace SJMC.CMS.API.DTOs
         public int QuickLinks { get; set; }
         public int HeroContent { get; set; }
         public int SiteStats { get; set; }
+        public int Applications { get; set; }
     }
 }

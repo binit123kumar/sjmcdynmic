@@ -125,6 +125,83 @@ namespace SJMC.CMS.API.Migrations
                     b.ToTable("AdminUsers");
                 });
 
+            modelBuilder.Entity("SJMC.CMS.API.Models.AdmissionApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("AdminRemarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Course")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("FatherName")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Gender")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MotherName")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Qualification")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdmissionApplications");
+                });
+
             modelBuilder.Entity("SJMC.CMS.API.Models.ContentPage", b =>
                 {
                     b.Property<int>("Id")
@@ -231,6 +308,41 @@ namespace SJMC.CMS.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Two-year postgraduate program covering print, electronic, and digital media with practical training in reporting, editing, and production.",
+                            DisplayOrder = 1,
+                            Duration = "2 Years",
+                            Eligibility = "Bachelor's degree in any discipline with 50% marks",
+                            IsActive = true,
+                            Name = "M.A. in Journalism and Mass Communication"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Doctoral program for advanced research in media studies, communication theory, and journalism practices.",
+                            DisplayOrder = 2,
+                            Duration = "3-5 Years",
+                            Eligibility = "Master's degree in Mass Communication with 55% marks",
+                            IsActive = true,
+                            Name = "Ph.D. in Mass Communication"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "One-year diploma program focusing on digital content creation, social media management, and online journalism.",
+                            DisplayOrder = 3,
+                            Duration = "1 Year",
+                            Eligibility = "Bachelor's degree in any discipline",
+                            IsActive = true,
+                            Name = "PG Diploma in Digital Media"
+                        });
                 });
 
             modelBuilder.Entity("SJMC.CMS.API.Models.DownloadItem", b =>
@@ -312,6 +424,30 @@ namespace SJMC.CMS.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EventItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Join us for the annual media festival featuring competitions, workshops, and networking opportunities with industry professionals.",
+                            DisplayOrder = 1,
+                            EventDate = new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Title = "Annual Media Festival 2026",
+                            Venue = "SJMC Campus, AKU Patna"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Showcase of best photographs by SJMC students covering various themes from campus life to social issues.",
+                            DisplayOrder = 2,
+                            EventDate = new DateTime(2024, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Title = "Photography Exhibition",
+                            Venue = "Media Center, SJMC"
+                        });
                 });
 
             modelBuilder.Entity("SJMC.CMS.API.Models.Faculty", b =>
@@ -482,6 +618,20 @@ namespace SJMC.CMS.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HeroContents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CampusImagePath = "/uploads/hero/home_slider_1.webp",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CtaButtons = "[{\"text\": \"Explore SJMC\", \"link\": \"#sjmc-about\", \"class\": \"sjmc-btn-orange\"}, {\"text\": \"Admission 2026\", \"link\": \"https://adms.akubihar.ac.in/\", \"class\": \"sjmc-btn-purple\"}]",
+                            DisplayOrder = 1,
+                            IsActive = true,
+                            MediaStudioImagePath = "/uploads/hero/home_slider_2.webp",
+                            Pillars = "[\"Media\", \"Society\", \"Knowledge\", \"Responsible Communication\"]",
+                            Tagline = "Welcome to SJMC"
+                        });
                 });
 
             modelBuilder.Entity("SJMC.CMS.API.Models.MediaFile", b =>
@@ -587,6 +737,38 @@ namespace SJMC.CMS.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NewsItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "SJMC Aryabhatta Knowledge University Patna announces admission for M.A. in Journalism and Mass Communication for the academic session 2026-28. Apply online through AKU admission portal.",
+                            DisplayOrder = 1,
+                            IsActive = true,
+                            PublishDate = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Admission Open for M.A. Journalism 2026"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "A two-day workshop on Digital Journalism and New Media trends organized by SJMC in collaboration with leading media houses.",
+                            DisplayOrder = 2,
+                            IsActive = true,
+                            PublishDate = new DateTime(2024, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Media Workshop on Digital Journalism"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Renowned journalist from national media house delivered guest lecture on 'Challenges in Modern Journalism' to SJMC students.",
+                            DisplayOrder = 3,
+                            IsActive = true,
+                            PublishDate = new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Guest Lecture by Senior Journalist"
+                        });
                 });
 
             modelBuilder.Entity("SJMC.CMS.API.Models.NoticeItem", b =>

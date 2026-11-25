@@ -25,6 +25,7 @@ namespace SJMC.CMS.API.Data
         public DbSet<QuickLink> QuickLinks => Set<QuickLink>();
         public DbSet<HeroContent> HeroContents => Set<HeroContent>();
         public DbSet<SiteStat> SiteStats => Set<SiteStat>();
+        public DbSet<AdmissionApplication> AdmissionApplications => Set<AdmissionApplication>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +59,119 @@ namespace SJMC.CMS.API.Data
                 new SiteStat { Id = 3, Label = "5000+ Students", Value = "5000+", IconName = "fa-users", DisplayOrder = 3, IsActive = true, CreatedAt = new DateTime(2024, 1, 1) },
                 new SiteStat { Id = 4, Label = "100+ Faculty", Value = "100+", IconName = "fa-chalkboard-teacher", DisplayOrder = 4, IsActive = true, CreatedAt = new DateTime(2024, 1, 1) },
                 new SiteStat { Id = 5, Label = "100% Quality", Value = "100%", IconName = "fa-star", DisplayOrder = 5, IsActive = true, CreatedAt = new DateTime(2024, 1, 1) }
+            );
+
+            // Seed HeroContent
+            modelBuilder.Entity<HeroContent>().HasData(
+                new HeroContent
+                {
+                    Id = 1,
+                    Tagline = "Welcome to SJMC",
+                    Pillars = "[\"Media\", \"Society\", \"Knowledge\", \"Responsible Communication\"]",
+                    CtaButtons = "[{\"text\": \"Explore SJMC\", \"link\": \"#sjmc-about\", \"class\": \"sjmc-btn-orange\"}, {\"text\": \"Admission 2026\", \"link\": \"https://adms.akubihar.ac.in/\", \"class\": \"sjmc-btn-purple\"}]",
+                    CampusImagePath = "/uploads/hero/home_slider_1.webp",
+                    MediaStudioImagePath = "/uploads/hero/home_slider_2.webp",
+                    DisplayOrder = 1,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 1, 1)
+                }
+            );
+
+            // Seed sample News
+            modelBuilder.Entity<NewsItem>().HasData(
+                new NewsItem
+                {
+                    Id = 1,
+                    Title = "Admission Open for M.A. Journalism 2026",
+                    Description = "SJMC Aryabhatta Knowledge University Patna announces admission for M.A. in Journalism and Mass Communication for the academic session 2026-28. Apply online through AKU admission portal.",
+                    PublishDate = new DateTime(2024, 11, 20),
+                    DisplayOrder = 1,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 11, 20)
+                },
+                new NewsItem
+                {
+                    Id = 2,
+                    Title = "Media Workshop on Digital Journalism",
+                    Description = "A two-day workshop on Digital Journalism and New Media trends organized by SJMC in collaboration with leading media houses.",
+                    PublishDate = new DateTime(2024, 11, 15),
+                    DisplayOrder = 2,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 11, 15)
+                },
+                new NewsItem
+                {
+                    Id = 3,
+                    Title = "Guest Lecture by Senior Journalist",
+                    Description = "Renowned journalist from national media house delivered guest lecture on 'Challenges in Modern Journalism' to SJMC students.",
+                    PublishDate = new DateTime(2024, 11, 10),
+                    DisplayOrder = 3,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 11, 10)
+                }
+            );
+
+            // Seed sample Events
+            modelBuilder.Entity<EventItem>().HasData(
+                new EventItem
+                {
+                    Id = 1,
+                    Title = "Annual Media Festival 2026",
+                    Description = "Join us for the annual media festival featuring competitions, workshops, and networking opportunities with industry professionals.",
+                    EventDate = new DateTime(2024, 12, 15),
+                    Venue = "SJMC Campus, AKU Patna",
+                    DisplayOrder = 1,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 11, 1)
+                },
+                new EventItem
+                {
+                    Id = 2,
+                    Title = "Photography Exhibition",
+                    Description = "Showcase of best photographs by SJMC students covering various themes from campus life to social issues.",
+                    EventDate = new DateTime(2024, 12, 10),
+                    Venue = "Media Center, SJMC",
+                    DisplayOrder = 2,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 11, 5)
+                }
+            );
+
+            // Seed sample Courses
+            modelBuilder.Entity<Course>().HasData(
+                new Course
+                {
+                    Id = 1,
+                    Name = "M.A. in Journalism and Mass Communication",
+                    Description = "Two-year postgraduate program covering print, electronic, and digital media with practical training in reporting, editing, and production.",
+                    Duration = "2 Years",
+                    Eligibility = "Bachelor's degree in any discipline with 50% marks",
+                    DisplayOrder = 1,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 1, 1)
+                },
+                new Course
+                {
+                    Id = 2,
+                    Name = "Ph.D. in Mass Communication",
+                    Description = "Doctoral program for advanced research in media studies, communication theory, and journalism practices.",
+                    Duration = "3-5 Years",
+                    Eligibility = "Master's degree in Mass Communication with 55% marks",
+                    DisplayOrder = 2,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 1, 1)
+                },
+                new Course
+                {
+                    Id = 3,
+                    Name = "PG Diploma in Digital Media",
+                    Description = "One-year diploma program focusing on digital content creation, social media management, and online journalism.",
+                    Duration = "1 Year",
+                    Eligibility = "Bachelor's degree in any discipline",
+                    DisplayOrder = 3,
+                    IsActive = true,
+                    CreatedAt = new DateTime(2024, 1, 1)
+                }
             );
 
             // Unique username

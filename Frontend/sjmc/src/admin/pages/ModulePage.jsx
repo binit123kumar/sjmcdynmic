@@ -50,9 +50,16 @@ export default function ModulePage() {
     setSaving(true);
     try {
       if (editingRecord) {
-        await client.put(`${config.endpoint}/${editingRecord.id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        // Special handling for applications module - only update status
+        if (moduleKey === 'applications') {
+          await client.put(`${config.endpoint}/${editingRecord.id}/status`, formData, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+        } else {
+          await client.put(`${config.endpoint}/${editingRecord.id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+        }
       } else {
         await client.post(config.endpoint, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -98,9 +105,11 @@ export default function ModulePage() {
       </div>
       <div className="page-title-row">
         <h1>{config.label} Management</h1>
-        <button className="btn btn-primary" onClick={() => { setEditingRecord(null); setShowForm(true); }}>
-          <i className="bi bi-plus-lg" /> Add {config.label}
-        </button>
+        {!config.noCreate && (
+          <button className="btn btn-primary" onClick={() => { setEditingRecord(null); setShowForm(true); }}>
+            <i className="bi bi-plus-lg" /> Add {config.label}
+          </button>
+        )}
       </div>
 
       <div className="card-panel">

@@ -423,6 +423,41 @@ export const modules = {
       { key: 'status', label: 'Status' },
     ],
   },
+
+  applications: {
+    key: 'applications',
+    label: 'Admission Applications',
+    icon: 'bi-person-plus',
+    color: '#dc2626',
+    endpoint: '/applications',
+    titleField: 'fullName',
+    imageField: null,
+    noCreate: true,
+    noEdit: true,
+    fields: [
+      { name: 'fullName', label: 'Full Name', type: 'text', required: true, full: true, readonly: true },
+      { name: 'fatherName', label: 'Father Name', type: 'text', readonly: true },
+      { name: 'motherName', label: 'Mother Name', type: 'text', readonly: true },
+      { name: 'phone', label: 'Phone', type: 'text', readonly: true },
+      { name: 'email', label: 'Email', type: 'text', readonly: true },
+      { name: 'address', label: 'Address', type: 'text', readonly: true },
+      { name: 'course', label: 'Course', type: 'text', readonly: true },
+      { name: 'qualification', label: 'Qualification', type: 'text', readonly: true },
+      { name: 'dateOfBirth', label: 'Date of Birth', type: 'date', readonly: true },
+      { name: 'gender', label: 'Gender', type: 'text', readonly: true },
+      { name: 'message', label: 'Message', type: 'textarea', full: true, readonly: true },
+      { name: 'status', label: 'Status', type: 'select', options: ['Pending', 'Approved', 'Rejected', 'Under Review'], required: true },
+      { name: 'adminRemarks', label: 'Admin Remarks', type: 'textarea', full: true },
+    ],
+    columns: [
+      { key: 'fullName', label: 'Name' },
+      { key: 'course', label: 'Course' },
+      { key: 'phone', label: 'Phone' },
+      { key: 'email', label: 'Email' },
+      { key: 'status', label: 'Status' },
+      { key: 'createdAt', label: 'Applied On', date: true },
+    ],
+  },
 };
 
 export const moduleList = Object.values(modules);

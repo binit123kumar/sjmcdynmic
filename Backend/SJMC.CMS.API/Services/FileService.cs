@@ -51,18 +51,24 @@ namespace SJMC.CMS.API.Services
             var originalSize = file.Length;
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!AllowedExtensions.Contains(ext))
-                throw new ArgumentException($"File type '{ext}' is not allowed.");
+                throw new ArgumentException(
+    $"File type '{ext}' is not allowed.",
+    nameof(SaveFileAsync));
 
             if (ImageFolders.Contains(subFolder, StringComparer.OrdinalIgnoreCase))
             {
                 var maxSize = ImageExtensions.Contains(ext) ? ImageSectionSizeBytes : MaxFileSizeBytes;
                 if (file.Length > maxSize)
-                    throw new ArgumentException($"File exceeds the {maxSize / (1024 * 1024)} MB limit.");
+                    throw new ArgumentException(
+    $"File exceeds the {maxSize / (1024 * 1024)} MB limit.",
+    nameof(SaveFileAsync));
             }
             else
             {
                 if (file.Length > MaxFileSizeBytes)
-                    throw new ArgumentException($"File exceeds the {MaxFileSizeBytes / (1024 * 1024)} MB limit.");
+                    throw new ArgumentException(
+    $"File exceeds the {MaxFileSizeBytes / (1024 * 1024)} MB limit.",
+    nameof(SaveFileAsync));
             }
 
             ValidateContentType(file, ext);
@@ -93,16 +99,18 @@ namespace SJMC.CMS.API.Services
                         OriginalSizeBytes: originalSize,
                         SavedSizeBytes: saved);
                 }
-                catch (Exception ex) when (ex is not ArgumentException)
+                catch (Exception ex) when (ex is not OperationCanceledException)
                 {
                     // Conversion failed: fall back to storing the original file untouched.
                     // Never delete or overwrite an original before successful processing.
                     if (File.Exists(webpFullPath)) File.Delete(webpFullPath);
 
-                    using var fallback = new FileStream(fullPath, FileMode.Create);
-                    await file.CopyToAsync(fallback);
+                 using (var fallback = new FileStream(fullPath, FileMode.Create))
+{
+    await file.CopyToAsync(fallback);
+}
 
-                    var fallbackSize = new FileInfo(fullPath).Length;
+var fallbackSize = new FileInfo(fullPath).Length;
                     result = new FileSaveResult(
                         Path: $"/uploads/{subFolder}/{fileName}",
                         OriginalFileName: file.FileName,

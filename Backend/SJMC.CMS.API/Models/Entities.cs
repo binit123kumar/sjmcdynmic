@@ -200,4 +200,21 @@ namespace SJMC.CMS.API.Models
         [Required, MaxLength(100)] public string Value { get; set; } = string.Empty;
         [Required, MaxLength(50)] public string IconName { get; set; } = string.Empty;
     }
+
+    public class AdmissionApplication : BaseEntity
+    {
+        [Required, MaxLength(150)] public string FullName { get; set; } = string.Empty;
+        [MaxLength(150)] public string? FatherName { get; set; }
+        [MaxLength(150)] public string? MotherName { get; set; }
+        [Required, MaxLength(20)] public string Phone { get; set; } = string.Empty;
+        [Required, MaxLength(150)] public string Email { get; set; } = string.Empty;
+        [MaxLength(250)] public string? Address { get; set; }
+        [MaxLength(100)] public string? Course { get; set; }
+        [MaxLength(20)] public string? Qualification { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        [MaxLength(20)] public string? Gender { get; set; }
+        public string? Message { get; set; }
+        public string Status { get; set; } = "Pending";
+        public string? AdminRemarks { get; set; }
+    }
 }

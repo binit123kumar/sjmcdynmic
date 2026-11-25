@@ -34,7 +34,8 @@ namespace SJMC.CMS.API.Controllers
                 Publications = await _db.Publications.CountAsync(x => x.IsActive),
                 QuickLinks = await _db.QuickLinks.CountAsync(x => x.IsActive),
                 HeroContent = await _db.HeroContents.CountAsync(x => x.IsActive),
-                SiteStats = await _db.SiteStats.CountAsync(x => x.IsActive)
+                SiteStats = await _db.SiteStats.CountAsync(x => x.IsActive),
+                Applications = await _db.AdmissionApplications.CountAsync()
             };
 
             return Ok(ApiResponse<DashboardCountsDto>.Ok(counts));

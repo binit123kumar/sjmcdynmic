@@ -21,6 +21,8 @@ const MainContent = () => {
     const [aboutItems, setAboutItems] = useState([]);
     const [galleryItems, setGalleryItems] = useState([]);
     const [quickLinks, setQuickLinks] = useState([]);
+    const [heroContent, setHeroContent] = useState(null);
+    const [siteStats, setSiteStats] = useState([]);
     const [galleryLoading, setGalleryLoading] = useState(true);
     const [galleryError, setGalleryError] = useState('');
 
@@ -73,6 +75,16 @@ const MainContent = () => {
             .then((json) => { if (mounted) setQuickLinks(json.data || []); })
             .catch(() => { if (mounted) setQuickLinks([]); });
 
+        fetch(`${API_BASE}/api/herocontent`)
+            .then((response) => response.json())
+            .then((json) => { if (mounted) setHeroContent((json.data && json.data.length > 0) ? json.data[0] : null); })
+            .catch(() => { if (mounted) setHeroContent(null); });
+
+        fetch(`${API_BASE}/api/sitestat`)
+            .then((response) => response.json())
+            .then((json) => { if (mounted) setSiteStats(json.data || []); })
+            .catch(() => { if (mounted) setSiteStats([]); });
+
         return () => { mounted = false; };
     }, []);
 
@@ -102,13 +114,24 @@ const MainContent = () => {
                             <p className="sjmc-hero-sub">School of Journalism and Mass Communication</p>
                             <p className="sjmc-hero-aku">Aryabhatta Knowledge University, Patna</p>
                             <div className="sjmc-hero-tags my-4">
-                                <span>Media</span>
-                                <span className="sjmc-tag-divider">|</span>
-                                <span>Society</span>
-                                <span className="sjmc-tag-divider">|</span>
-                                <span>Knowledge</span>
-                                <span className="sjmc-tag-divider">|</span>
-                                <span>Responsible Communication</span>
+                                {heroContent?.pillars ? (
+                                    JSON.parse(heroContent.pillars).map((pillar, index) => (
+                                        <React.Fragment key={index}>
+                                            <span>{pillar}</span>
+                                            {index < JSON.parse(heroContent.pillars).length - 1 && <span className="sjmc-tag-divider">|</span>}
+                                        </React.Fragment>
+                                    ))
+                                ) : (
+                                    <>
+                                        <span>Media</span>
+                                        <span className="sjmc-tag-divider">|</span>
+                                        <span>Society</span>
+                                        <span className="sjmc-tag-divider">|</span>
+                                        <span>Knowledge</span>
+                                        <span className="sjmc-tag-divider">|</span>
+                                        <span>Responsible Communication</span>
+                                    </>
+                                )}
                             </div>
                             <div className="d-flex gap-3 flex-wrap">
                                 <a href="#sjmc-about" className="sjmc-btn-orange">Explore SJMC</a>
@@ -116,8 +139,8 @@ const MainContent = () => {
                             </div>
                         </div>
                         <div className="col-lg-5 sjmc-hero-media">
-                            <img src={heroCampus} alt="SJMC campus" />
-                            <img src={heroMedia} alt="Media production at SJMC" className="sjmc-hero-img-secondary" />
+                            <img src={heroContent?.campusImagePath ? `${API_BASE}${heroContent.campusImagePath}` : heroCampus} alt="SJMC campus" />
+                            <img src={heroContent?.mediaStudioImagePath ? `${API_BASE}${heroContent.mediaStudioImagePath}` : heroMedia} alt="Media production at SJMC" className="sjmc-hero-img-secondary" />
                             <div className="sjmc-hero-badge">
                                 <i className="fa fa-video-camera"></i>
                                 <span>Studio &amp; Media Production</span>
@@ -268,26 +291,36 @@ const MainContent = () => {
             <section className="sjmc-stats">
                 <div className="container">
                     <div className="row text-center gy-4">
-                        <div className="col-6 col-md-3">
-                            <div className="sjmc-stat-icon"><i className="fa fa-graduation-cap"></i></div>
-                            <div className="sjmc-stat-value">{courses.length}</div>
-                            <div className="sjmc-stat-label">Programmes &amp; Courses</div>
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <div className="sjmc-stat-icon"><i className="fa fa-newspaper-o"></i></div>
-                            <div className="sjmc-stat-value">{newsItems.length}</div>
-                            <div className="sjmc-stat-label">News Updates</div>
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <div className="sjmc-stat-icon"><i className="fa fa-calendar"></i></div>
-                            <div className="sjmc-stat-value">{events.length}</div>
-                            <div className="sjmc-stat-label">Upcoming Events</div>
-                        </div>
-                        <div className="col-6 col-md-3">
-                            <div className="sjmc-stat-icon"><i className="fa fa-camera"></i></div>
-                            <div className="sjmc-stat-value">{galleryItems.length}</div>
-                            <div className="sjmc-stat-label">Gallery Highlights</div>
-                        </div>
+                        {siteStats.length > 0 ? siteStats.map((stat) => (
+                            <div className="col-6 col-md-3" key={stat.id}>
+                                <div className="sjmc-stat-icon"><i className={`fa ${stat.iconName}`}></i></div>
+                                <div className="sjmc-stat-value">{stat.value}</div>
+                                <div className="sjmc-stat-label">{stat.label}</div>
+                            </div>
+                        )) : (
+                            <>
+                                <div className="col-6 col-md-3">
+                                    <div className="sjmc-stat-icon"><i className="fa fa-graduation-cap"></i></div>
+                                    <div className="sjmc-stat-value">{courses.length}</div>
+                                    <div className="sjmc-stat-label">Programmes &amp; Courses</div>
+                                </div>
+                                <div className="col-6 col-md-3">
+                                    <div className="sjmc-stat-icon"><i className="fa fa-newspaper-o"></i></div>
+                                    <div className="sjmc-stat-value">{newsItems.length}</div>
+                                    <div className="sjmc-stat-label">News Updates</div>
+                                </div>
+                                <div className="col-6 col-md-3">
+                                    <div className="sjmc-stat-icon"><i className="fa fa-calendar"></i></div>
+                                    <div className="sjmc-stat-value">{events.length}</div>
+                                    <div className="sjmc-stat-label">Upcoming Events</div>
+                                </div>
+                                <div className="col-6 col-md-3">
+                                    <div className="sjmc-stat-icon"><i className="fa fa-camera"></i></div>
+                                    <div className="sjmc-stat-value">{galleryItems.length}</div>
+                                    <div className="sjmc-stat-label">Gallery Highlights</div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
