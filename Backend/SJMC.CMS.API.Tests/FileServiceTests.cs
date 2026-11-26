@@ -177,8 +177,27 @@ public class FileServiceTests
         var result = await _sut.SaveFileAsync(file, "downloads", "Multipage");
 
         Assert.True(result.OriginalSizeBytes > 0);
-        Assert.True(result.SavedSizeBytes > 0);
+        Assert.True(result.SavedSizeBytes > 0, $"Saved={result.SavedSizeBytes}, Original={result.OriginalSizeBytes}, Path={result.Path}");
         var full = Path.Combine(_webRoot, "uploads", "downloads", result.StoredFileName);
+        Console.WriteLine($"WebRoot: {_webRoot}");
+Console.WriteLine($"Result Path: {result.Path}");
+Console.WriteLine($"Stored File Name: {result.StoredFileName}");
+Console.WriteLine($"Expected Full Path: {full}");
+Console.WriteLine($"File Exists: {File.Exists(full)}");
+
+var uploadRoot = Path.Combine(_webRoot, "uploads");
+
+if (Directory.Exists(uploadRoot))
+{
+    foreach (var path in Directory.GetFiles(uploadRoot, "*", SearchOption.AllDirectories))
+    {
+        Console.WriteLine($"Actual Saved File: {path}");
+    }
+}
+else
+{
+    Console.WriteLine("Uploads directory does not exist.");
+}
         Assert.True(File.Exists(full));
         var saved = await File.ReadAllBytesAsync(full);
         Assert.Equal(bytes, saved);
