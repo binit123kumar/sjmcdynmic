@@ -14,6 +14,9 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -54,6 +57,28 @@ export default function SettingsPage() {
       setMessage(err?.response?.data?.message || 'Save failed.');
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handlePasswordSubmit(e) {
+    e.preventDefault();
+    setPasswordMessage('');
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordMessage('New passwords do not match.');
+      return;
+    }
+    setPasswordSaving(true);
+    try {
+      const res = await client.post('/auth/change-password', {
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword,
+      });
+      setPasswordMessage(res.data.message || 'Password changed successfully.');
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (err) {
+      setPasswordMessage(err?.response?.data?.message || 'Password change failed.');
+    } finally {
+      setPasswordSaving(false);
     }
   }
 
@@ -121,6 +146,33 @@ export default function SettingsPage() {
           <div className="modal-footer">
             <button type="submit" className="btn btn-primary" disabled={saving}>
               {saving ? 'Saving...' : 'Save Settings'}
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="page-title-row" style={{ marginTop: 24 }}><h2>Change Admin Password</h2></div>
+      <div className="card-panel">
+        <form onSubmit={handlePasswordSubmit}>
+          <div className="modal-body" style={{ maxHeight: 'none' }}>
+            {passwordMessage && <div className="login-error" style={{ background: passwordMessage.includes('successfully') ? 'var(--success-bg)' : undefined, color: passwordMessage.includes('successfully') ? 'var(--success)' : undefined }}>{passwordMessage}</div>}
+            <div className="form-grid">
+              <div className="form-group full">
+                <label>Current Password</label>
+                <input type="password" autoComplete="current-password" value={passwordForm.currentPassword} onChange={(e) => setPasswordForm((p) => ({ ...p, currentPassword: e.target.value }))} required />
+              </div>
+              <div className="form-group">
+                <label>New Password (at least 8 characters)</label>
+                <input type="password" autoComplete="new-password" minLength={8} maxLength={72} value={passwordForm.newPassword} onChange={(e) => setPasswordForm((p) => ({ ...p, newPassword: e.target.value }))} required />
+              </div>
+              <div className="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" autoComplete="new-password" minLength={8} maxLength={72} value={passwordForm.confirmPassword} onChange={(e) => setPasswordForm((p) => ({ ...p, confirmPassword: e.target.value }))} required />
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="submit" className="btn btn-primary" disabled={passwordSaving}>
+              {passwordSaving ? 'Changing...' : 'Change Password'}
             </button>
           </div>
         </form>

@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 using SJMC.CMS.API.Services;
 using Xunit;
 
@@ -29,18 +26,29 @@ public class FileServiceTests
 
     private static byte[] CreateJpgBytes(int width = 640, int height = 480)
     {
-        using var image = new Image<Rgba32>(width, height, new Rgba32(123, 200, 50, 255));
-        using var ms = new MemoryStream();
-        image.Save(ms, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder());
-        return ms.ToArray();
+        return CreateImageBytes(
+            width, height, new SKColor(123, 200, 50, 255),
+            SKEncodedImageFormat.Jpeg);
     }
 
     private static byte[] CreatePngBytes(int width = 640, int height = 480)
     {
-        using var image = new Image<Rgba32>(width, height, new Rgba32(12, 34, 200, 255));
-        using var ms = new MemoryStream();
-        image.Save(ms, new PngEncoder());
-        return ms.ToArray();
+        return CreateImageBytes(
+            width, height, new SKColor(12, 34, 200, 255),
+            SKEncodedImageFormat.Png);
+    }
+
+    private static byte[] CreateImageBytes(
+        int width, int height, SKColor color, SKEncodedImageFormat format)
+    {
+        using var bitmap = new SKBitmap(
+            new SKImageInfo(width, height, SKColorType.Rgba8888, SKAlphaType.Premul));
+        using var canvas = new SKCanvas(bitmap);
+        canvas.Clear(color);
+
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(format, 90);
+        return data.ToArray();
     }
 
     private static byte[] CreateMinimalPdf(int pages = 1)
@@ -113,10 +121,9 @@ public class FileServiceTests
     {
         // A .webp input is already webp and should be saved as-is (no .webp->.webp re-encode),
         // but the service still stores it under the same webp extension.
-        using var image = new Image<Rgba32>(400, 300, new Rgba32(0, 0, 255, 255));
-        using var ms = new MemoryStream();
-        await image.SaveAsync(ms, new WebpEncoder());
-        var bytes = ms.ToArray();
+        var bytes = CreateImageBytes(
+            400, 300, new SKColor(0, 0, 255, 255),
+            SKEncodedImageFormat.Webp);
 
         var file = FormFileFactory.Create(bytes, "badge.webp", "image/webp");
 

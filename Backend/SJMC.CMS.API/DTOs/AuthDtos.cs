@@ -8,6 +8,12 @@ namespace SJMC.CMS.API.DTOs
         [Required] public string Password { get; set; } = string.Empty;
     }
 
+    public class ChangePasswordRequestDto
+    {
+        [Required] public string CurrentPassword { get; set; } = string.Empty;
+        [Required, MinLength(8), MaxLength(72)] public string NewPassword { get; set; } = string.Empty;
+    }
+
     public class LoginResponseDto
     {
         public string Token { get; set; } = string.Empty;

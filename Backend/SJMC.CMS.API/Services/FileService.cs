@@ -1,9 +1,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace SJMC.CMS.API.Services
 {
@@ -182,34 +180,47 @@ namespace SJMC.CMS.API.Services
         private async Task<long> ConvertAndSaveImageAsync(
             byte[] fileBytes, string webpFullPath)
         {
-            using var inputStream = new MemoryStream(fileBytes);
-
-            using var image = await Image.LoadAsync(inputStream);
-
-            if (image.Metadata.DecodedImageFormat == null)
+            using var bitmap = SKBitmap.Decode(fileBytes);
+            if (bitmap == null)
                 throw new ArgumentException(
                     "Uploaded image could not be decoded.");
 
             // Resize while preserving aspect ratio.
             if (_maxDimension > 0 &&
-                (image.Width > _maxDimension || image.Height > _maxDimension))
+                (bitmap.Width > _maxDimension || bitmap.Height > _maxDimension))
             {
-                var options = new ResizeOptions
-                {
-                    Mode = ResizeMode.Max,
-                    Size = new Size(_maxDimension, _maxDimension)
-                };
+                var scale = Math.Min(
+                    (double)_maxDimension / bitmap.Width,
+                    (double)_maxDimension / bitmap.Height);
+                var width = Math.Max(1, (int)Math.Round(bitmap.Width * scale));
+                var height = Math.Max(1, (int)Math.Round(bitmap.Height * scale));
+                var resizedInfo = new SKImageInfo(width, height);
 
-                image.Mutate(x => x.Resize(options));
+                using var resizedBitmap = bitmap.Resize(
+                    resizedInfo, new SKSamplingOptions(SKFilterMode.Linear));
+                if (resizedBitmap == null)
+                    throw new InvalidOperationException(
+                        "Uploaded image could not be resized.");
+
+                using var resizedImage = SKImage.FromBitmap(resizedBitmap);
+                using var resizedData = resizedImage.Encode(
+                    SKEncodedImageFormat.Webp, _webpQuality);
+                if (resizedData == null)
+                    throw new InvalidOperationException(
+                        "Uploaded image could not be encoded as WebP.");
+
+                await File.WriteAllBytesAsync(
+                    webpFullPath, resizedData.ToArray());
+                return new FileInfo(webpFullPath).Length;
             }
 
-            var encoder = new WebpEncoder
-            {
-                Quality = _webpQuality
-            };
+            using var image = SKImage.FromBitmap(bitmap);
+            using var data = image.Encode(SKEncodedImageFormat.Webp, _webpQuality);
+            if (data == null)
+                throw new InvalidOperationException(
+                    "Uploaded image could not be encoded as WebP.");
 
-            await image.SaveAsync(webpFullPath, encoder);
-
+            await File.WriteAllBytesAsync(webpFullPath, data.ToArray());
             return new FileInfo(webpFullPath).Length;
         }
 

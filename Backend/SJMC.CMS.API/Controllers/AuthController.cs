@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using SJMC.CMS.API.Data;
 using SJMC.CMS.API.DTOs;
 using SJMC.CMS.API.Helpers;
@@ -44,6 +46,37 @@ namespace SJMC.CMS.API.Controllers
             };
 
             return Ok(ApiResponse<LoginResponseDto>.Ok(response, "Login successful."));
+        }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? User.FindFirstValue("sub")
+                ?? User.FindFirstValue("nameid");
+
+            if (!int.TryParse(userId, out var id))
+                return Unauthorized(ApiResponse<object>.Fail("Invalid authentication token."));
+
+            var user = await _db.AdminUsers.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+                return Unauthorized(ApiResponse<object>.Fail("Invalid authentication token."));
+
+            if (string.IsNullOrWhiteSpace(request.CurrentPassword)
+                || !BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash))
+                return BadRequest(ApiResponse<object>.Fail("Current password is incorrect."));
+
+            if (string.IsNullOrWhiteSpace(request.NewPassword) || request.NewPassword.Length < 8)
+                return BadRequest(ApiResponse<object>.Fail("New password must be at least 8 characters."));
+
+            if (BCrypt.Net.BCrypt.Verify(request.NewPassword, user.PasswordHash))
+                return BadRequest(ApiResponse<object>.Fail("New password must be different from the current password."));
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            await _db.SaveChangesAsync();
+
+            return Ok(ApiResponse<object>.Ok(new { }, "Password changed successfully."));
         }
     }
 }
