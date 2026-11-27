@@ -6,7 +6,13 @@ COPY ["SJMC.CMS.API.csproj", "./"]
 RUN dotnet restore "SJMC.CMS.API.csproj"
 
 COPY . .
-RUN dotnet publish "SJMC.CMS.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+RUN --mount=type=secret,id=sixlabors_lic,dst=/etc/secrets/sixlabors.lic,required=true \
+    dotnet publish "SJMC.CMS.API.csproj" \
+    -c Release \
+    -o /app/publish \
+    /p:SixLaborsLicenseFile=/etc/secrets/sixlabors.lic \
+    /p:UseAppHost=false
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
